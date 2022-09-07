@@ -21,7 +21,7 @@ const HomeScreen = () => {
       <TextLarge text="熊本弁学習アプリ" />
       <CommonButton
         text="スタート！"
-        onPress={() => navigation.navigate("状況をえらぶ")}
+        onPress={() => navigation.navigate("場面選択")}
       />
     </View>
   );

@@ -1,18 +1,20 @@
 import * as React from "react";
-import { View, Text } from "react-native";
+import { View } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import { TextLarge } from "../components/text/TextLarge";
-import { Card, Button, Avatar, IconButton } from "react-native-paper";
+import { Card, Avatar } from "react-native-paper";
+import { ScrollView } from "react-native-gesture-handler";
 const SceneListScreen = () => {
   const navigation = useNavigation();
   return (
     <View>
-      <Card>
-        <Card.Title
-          title="まぶしい"
-          left={(props) => <Avatar.Icon {...props} icon="folder" />}
-        />
-      </Card>
+      <ScrollView>
+        <Card>
+          <Card.Title
+            title="まぶしい"
+            left={(props) => <Avatar.Icon {...props} icon="folder" />}
+          />
+        </Card>
+      </ScrollView>
     </View>
   );
 };

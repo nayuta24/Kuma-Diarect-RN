@@ -19,8 +19,10 @@ function App() {
     <NavigationContainer>
       <Stack.Navigator initialRouteName={"HomeScreen"}>
         <Stack.Screen name={"ホーム"} component={HomeScreen} />
-        <Stack.Screen name={"状況をえらぶ"} component={SituationListScreen} />
-        <Stack.Screen name={"詳細場面をえらぶ"} component={SceneListScreen} />
+        <Stack.Screen name={"場面選択"} component={SituationListScreen} />
+        <Stack.Screen name={"ナースコール"} component={SceneListScreen} />
+        <Stack.Screen name={"食事"} component={SceneListScreen} />
+        <Stack.Screen name={"日常生活"} component={SceneListScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );
