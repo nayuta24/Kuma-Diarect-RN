@@ -20,7 +20,7 @@ export const SituationCard: VFC<Props> = (props) => {
       }}
     >
       <Card.Content>
-        <Title>{title}</Title>
+        <Title style={{ fontWeight: "bold" }}>{title}</Title>
         <Paragraph>{paragraph}</Paragraph>
       </Card.Content>
       <Card.Cover source={{ uri: image }} />
