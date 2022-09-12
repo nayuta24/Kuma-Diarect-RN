@@ -32,15 +32,7 @@ function App() {
         >
           <Stack.Screen name={"ホーム"} component={HomeScreen} />
           <Stack.Screen name={"場面選択"} component={SituationScreen} />
-
-          <Stack.Screen
-            name={"ナースコール"}
-            component={ChapterScreen}
-            options={({ route }) => ({
-              title: "situation",
-            })}
-          />
-          <Stack.Screen name={"食事"} component={ChapterScreen} />
+          <Stack.Screen name={"チャプター選択"} component={ChapterScreen} />
         </Stack.Navigator>
       </NavigationContainer>
     </RecoilRoot>

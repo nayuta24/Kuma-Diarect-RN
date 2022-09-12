@@ -7,6 +7,8 @@ import Situations from "../_constants/situation.json";
 import { Appbar } from "react-native-paper";
 import { useNavigation } from "@react-navigation/native";
 import { Header } from "../components/Header";
+import { useRecoilValue } from "recoil";
+import { situationState } from "../store/situationState";
 
 type SituationsType = {
   title: string;
@@ -18,6 +20,7 @@ type SituationsType = {
 const SituationScreen = () => {
   const situations: Array<SituationsType> = Situations;
   const navigation = useNavigation();
+  const situationLabel = useRecoilValue(situationState);
 
   return (
     <View>

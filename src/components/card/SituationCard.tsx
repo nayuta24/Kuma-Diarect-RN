@@ -1,6 +1,8 @@
 import { VFC } from "react";
 import { Button, Card, Paragraph, Title } from "react-native-paper";
 import { useNavigation } from "@react-navigation/native";
+import { useSetRecoilState } from "recoil";
+import { situationState } from "../../store/situationState";
 
 type Props = {
   title: string;
@@ -11,6 +13,12 @@ type Props = {
 export const SituationCard: VFC<Props> = (props) => {
   const { title, paragraph, image } = props;
   const navigation = useNavigation();
+  const setSituationLabel = useSetRecoilState(situationState);
+
+  const onCardButtonPress = () => {
+    navigation.navigate("チャプター選択");
+    setSituationLabel(title);
+  };
 
   return (
     <Card
@@ -25,7 +33,7 @@ export const SituationCard: VFC<Props> = (props) => {
       </Card.Content>
       <Card.Cover source={{ uri: image }} />
       <Card.Actions>
-        <Button mode="outlined" onPress={() => navigation.navigate(title)}>
+        <Button mode="outlined" onPress={() => onCardButtonPress()}>
           はじめる
         </Button>
       </Card.Actions>
