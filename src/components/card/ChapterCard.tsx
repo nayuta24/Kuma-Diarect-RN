@@ -2,6 +2,8 @@ import { VFC } from "react";
 import { Avatar, Card, Title } from "react-native-paper";
 import { useNavigation } from "@react-navigation/native";
 import { Text } from "react-native";
+import { chapterState } from "../../store/chapterState";
+import { useSetRecoilState } from "recoil";
 
 type Props = {
   num: number;
@@ -11,11 +13,17 @@ type Props = {
 export const ChapterCard: VFC<Props> = (props) => {
   const { title, num } = props;
   const navigation = useNavigation();
+  const setChapterLabel = useSetRecoilState(chapterState);
+
+  const onCardButton = () => {
+    navigation.navigate("トーク画面");
+    setChapterLabel(title);
+  };
 
   return (
     <>
       <Card
-        onPress={() => navigation.navigate()}
+        onPress={() => onCardButton()}
         style={{
           marginVertical: 5,
           marginHorizontal: 15,
