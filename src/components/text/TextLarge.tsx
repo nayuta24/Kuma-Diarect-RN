@@ -8,7 +8,7 @@ type Props = {
 export const TextLarge: VFC<Props> = (props) => {
   const { text } = props;
   return (
-    <Text variant="headlineLarge" style={{ margin: 30 }}>
+    <Text variant="headlineLarge" style={{ margin: 30, fontWeight: "bold" }}>
       {text}
     </Text>
   );

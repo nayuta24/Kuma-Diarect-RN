@@ -2,10 +2,15 @@ import "react-native-gesture-handler";
 import { registerRootComponent } from "expo";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
+import { RecoilRoot, useRecoilValue } from "recoil";
+import { useRecoilState } from "recoil";
 
 import HomeScreen from "./pages/HomeScreen";
-import SituationListScreen from "./pages/SituationListScreen";
-import SceneListScreen from "./pages/ChapterScreen";
+import SituationScreen from "./pages/SituationScreen";
+import ChapterScreen from "./pages/ChapterScreen";
+import { situationState } from "./store/situationState";
+import { Appbar } from "react-native-paper";
+import { ChapterCard } from "./components/card/ChapterCard";
 
 export type RootStackParamList = {
   Home: undefined;
@@ -14,23 +19,31 @@ export type RootStackParamList = {
 };
 
 const Stack = createStackNavigator();
+
 function App() {
   return (
-    <NavigationContainer>
-      <Stack.Navigator initialRouteName={"HomeScreen"}>
-        <Stack.Screen name={"ホーム"} component={HomeScreen} />
-        <Stack.Screen name={"場面選択"} component={SituationListScreen} />
-        <Stack.Screen
-          name={"ナースコール"}
-          component={SceneListScreen}
-          options={({ route }) => ({
-            title: "ナースコール",
-          })}
-        />
-        <Stack.Screen name={"食事"} component={SceneListScreen} />
-        <Stack.Screen name={"日常生活"} component={SceneListScreen} />
-      </Stack.Navigator>
-    </NavigationContainer>
+    <RecoilRoot>
+      <NavigationContainer>
+        <Stack.Navigator
+          initialRouteName={"HomeScreen"}
+          screenOptions={{
+            headerShown: false,
+          }}
+        >
+          <Stack.Screen name={"ホーム"} component={HomeScreen} />
+          <Stack.Screen name={"場面選択"} component={SituationScreen} />
+
+          <Stack.Screen
+            name={"ナースコール"}
+            component={ChapterScreen}
+            options={({ route }) => ({
+              title: "situation",
+            })}
+          />
+          <Stack.Screen name={"食事"} component={ChapterScreen} />
+        </Stack.Navigator>
+      </NavigationContainer>
+    </RecoilRoot>
   );
 }
 

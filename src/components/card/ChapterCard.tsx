@@ -13,31 +13,34 @@ export const ChapterCard: VFC<Props> = (props) => {
   const navigation = useNavigation();
 
   return (
-    <Card
-      style={{
-        marginVertical: 5,
-        marginHorizontal: 15,
-      }}
-    >
-      <Card.Content style={{ flexDirection: "row" }}>
-        <Text
-          style={{
-            fontSize: 15,
-          }}
-        >
-          {("0" + num).slice(-2)}
-        </Text>
-        <Title
-          style={{
-            fontSize: 20,
-            fontWeight: "bold",
-            color: "purple",
-            paddingLeft: 20,
-          }}
-        >
-          {title}
-        </Title>
-      </Card.Content>
-    </Card>
+    <>
+      <Card
+        onPress={() => navigation.navigate()}
+        style={{
+          marginVertical: 5,
+          marginHorizontal: 15,
+        }}
+      >
+        <Card.Content style={{ flexDirection: "row" }}>
+          <Text
+            style={{
+              fontSize: 15,
+            }}
+          >
+            {("0" + num).slice(-2)}
+          </Text>
+          <Title
+            style={{
+              fontSize: 20,
+              fontWeight: "bold",
+              color: "purple",
+              paddingLeft: 20,
+            }}
+          >
+            {title}
+          </Title>
+        </Card.Content>
+      </Card>
+    </>
   );
 };
