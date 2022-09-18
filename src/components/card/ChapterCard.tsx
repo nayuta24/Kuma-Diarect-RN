@@ -8,47 +8,49 @@ import { useSetRecoilState } from "recoil";
 type Props = {
   num: number;
   title: string;
+  id: number;
 };
 
 export const ChapterCard: VFC<Props> = (props) => {
-  const { title, num } = props;
+  const { title, num, id } = props;
   const navigation = useNavigation();
-  const setChapterLabel = useSetRecoilState(chapterState);
+  const setChapter = useSetRecoilState(chapterState);
 
   const onCardButton = () => {
     navigation.navigate("トーク画面");
-    setChapterLabel(title);
+    setChapter({
+      label: title,
+      id: id,
+    });
   };
 
   return (
-    <>
-      <Card
-        onPress={() => onCardButton()}
-        style={{
-          marginVertical: 5,
-          marginHorizontal: 15,
-        }}
-      >
-        <Card.Content style={{ flexDirection: "row" }}>
-          <Text
-            style={{
-              fontSize: 15,
-            }}
-          >
-            {("0" + num).slice(-2)}
-          </Text>
-          <Title
-            style={{
-              fontSize: 20,
-              fontWeight: "bold",
-              color: "purple",
-              paddingLeft: 20,
-            }}
-          >
-            {title}
-          </Title>
-        </Card.Content>
-      </Card>
-    </>
+    <Card
+      onPress={() => onCardButton()}
+      style={{
+        marginVertical: 5,
+        marginHorizontal: 15,
+      }}
+    >
+      <Card.Content style={{ flexDirection: "row" }}>
+        <Text
+          style={{
+            fontSize: 15,
+          }}
+        >
+          {("0" + num).slice(-2)}
+        </Text>
+        <Title
+          style={{
+            fontSize: 20,
+            fontWeight: "bold",
+            color: "purple",
+            paddingLeft: 20,
+          }}
+        >
+          {title}
+        </Title>
+      </Card.Content>
+    </Card>
   );
 };

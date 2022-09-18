@@ -257,7 +257,7 @@ export const voiceDatas: voiceDatasType = [
     {
         title: "日常生活",
         explanation: "症状を正しく聞き取り、すばやく適切な行動が取れるようになりましょう。",
-        image: "日常のコミュニケーションから患者の状態を把握しましょう。",
+        image: "http://ilab.watson.jp/Test/NakamuraYutaTest/images/situation/life.jpg",
         datas: [
             {
                 title: "",

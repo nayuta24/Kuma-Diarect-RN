@@ -13,12 +13,13 @@ const SituationScreen = () => {
       <Header pageTitle="場面選択" />
       <ScrollView>
         <View>
-          {voiceDatas.map((voiceData) => (
+          {voiceDatas.map((voiceData, index) => (
             <SituationCard
               key={voiceData.title}
               title={voiceData.title}
               paragraph={voiceData.explanation}
               image={voiceData.image}
+              id={index}
             />
           ))}
         </View>

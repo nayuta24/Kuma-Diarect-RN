@@ -4,9 +4,9 @@ import { ScrollView } from "react-native-gesture-handler";
 import { useRecoilValue } from "recoil";
 
 import { ChapterCard } from "../components/card/ChapterCard";
-import Chapters from "../_constants/chapter.json";
 import { Header } from "../components/Header";
 import { situationState } from "../store/situationState";
+import { voiceDatas } from "../_constants/voiceDatas";
 
 type ChapterType = {
   title: string;
@@ -14,19 +14,20 @@ type ChapterType = {
 
 // 場面ごとのさらに細かいチャプター選択画面
 const ChapterScreen = () => {
-  const chapters: Array<ChapterType> = Chapters;
-  const situationLabel = useRecoilValue(situationState);
+  const situation = useRecoilValue(situationState);
+  const selectedSituationChapters = voiceDatas[situation.id].datas;
 
   return (
     <>
-      <Header pageTitle={situationLabel} />
+      <Header pageTitle={situation.label} />
       <ScrollView>
         <View>
-          {chapters.map((chapter, index) => (
+          {selectedSituationChapters.map((chapter, index) => (
             <ChapterCard
-              key={chapter.title}
+              key={index}
               title={chapter.title}
               num={index + 1}
+              id={index}
             />
           ))}
         </View>

@@ -8,16 +8,20 @@ type Props = {
   title: string;
   paragraph: string;
   image: string;
+  id: number;
 };
 
 export const SituationCard: VFC<Props> = (props) => {
-  const { title, paragraph, image } = props;
+  const { title, paragraph, image, id } = props;
   const navigation = useNavigation();
-  const setSituationLabel = useSetRecoilState(situationState);
+  const setSituation = useSetRecoilState(situationState);
 
   const onCardButtonPress = () => {
     navigation.navigate("チャプター選択");
-    setSituationLabel(title);
+    setSituation({
+      label: title,
+      id: id,
+    });
   };
 
   return (
