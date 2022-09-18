@@ -7,6 +7,7 @@ import { Audio, AVPlaybackSource } from "expo-av";
 import { Header } from "../components/Header";
 import { chapterState } from "../store/chapterState";
 import { Button, Text } from "react-native-paper";
+import { ChatBubbleButton } from "../components/button/ChatBubbleButton";
 
 // 場面ごとのさらに細かいチャプター選択画面
 const TalkScreen = () => {
@@ -68,15 +69,27 @@ const TalkScreen = () => {
     setIsVisibleMessage3(true);
   };
 
+  React.useEffect(() => {
+    setIsVisibleMessage1(false);
+    setIsVisibleMessage2(false);
+    setIsVisibleMessage3(false);
+  }, []);
+
   return (
     <>
       <Header pageTitle={chapter.label} />
       <ScrollView>
         <View>
           <Button onPress={sequenceAudioAndChat}>音声再生</Button>
-          {isVisivleMessage1 && <Text>メッセージ1</Text>}
-          {isVisivleMessage2 && <Text>メッセージ2</Text>}
-          {isVisivleMessage3 && <Text>メッセージ3</Text>}
+          {isVisivleMessage1 && (
+            <ChatBubbleButton speaker={1} text="カーテンを開けましょうか？" />
+          )}
+          {isVisivleMessage2 && (
+            <ChatBubbleButton speaker={2} text="まぶいかけん、よかたい。" />
+          )}
+          {isVisivleMessage3 && (
+            <ChatBubbleButton speaker={1} text="開けるときは呼んでください。" />
+          )}
         </View>
       </ScrollView>
     </>

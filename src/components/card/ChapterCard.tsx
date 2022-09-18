@@ -4,6 +4,7 @@ import { useNavigation } from "@react-navigation/native";
 import { Text } from "react-native";
 import { chapterState } from "../../store/chapterState";
 import { useSetRecoilState } from "recoil";
+import { partState } from "../../store/partState";
 
 type Props = {
   num: number;
@@ -15,12 +16,17 @@ export const ChapterCard: VFC<Props> = (props) => {
   const { title, num, id } = props;
   const navigation = useNavigation();
   const setChapter = useSetRecoilState(chapterState);
+  const setPart = useSetRecoilState(partState);
 
   const onCardButton = () => {
     navigation.navigate("トーク画面");
     setChapter({
       label: title,
       id: id,
+    });
+    setPart({
+      label: "part01",
+      id: 0,
     });
   };
 
