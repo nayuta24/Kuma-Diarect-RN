@@ -2,16 +2,27 @@ import * as React from "react";
 import { View } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import { useRecoilValue } from "recoil";
-import { Audio, AVPlaybackSource } from "expo-av";
+import { Audio } from "expo-av";
+import { Button } from "react-native-paper";
 
 import { Header } from "../components/Header";
 import { chapterState } from "../store/chapterState";
-import { Button, Text } from "react-native-paper";
 import { ChatBubbleButton } from "../components/button/ChatBubbleButton";
+import { situationState } from "../store/situationState";
+import { partState } from "../store/partState";
+import { voiceDatas } from "../_constants/voiceDatas";
 
 // 場面ごとのさらに細かいチャプター選択画面
 const TalkScreen = () => {
+  const situation = useRecoilValue(situationState);
   const chapter = useRecoilValue(chapterState);
+  const part = useRecoilValue(partState);
+
+  const [voiceTexts, setVoiceTexts] = React.useState<Array<string>>([]);
+  const [voiceSrcA, setVoiceSrcA] = React.useState<string>("");
+  const [voiceSrcB, setVoiceSrcB] = React.useState<string>("");
+  const [voiceSrcC, setVoiceSrcC] = React.useState<string>("");
+
   const [isVisivleMessage1, setIsVisibleMessage1] =
     React.useState<boolean>(false);
   const [isVisivleMessage2, setIsVisibleMessage2] =
@@ -19,11 +30,11 @@ const TalkScreen = () => {
   const [isVisivleMessage3, setIsVisibleMessage3] =
     React.useState<boolean>(false);
 
-  async function playSound(soundSource: AVPlaybackSource) {
+  async function playSound(soundSource: string) {
     try {
       await Audio.setIsEnabledAsync(true);
       const sound = new Audio.Sound();
-      await sound.loadAsync(soundSource);
+      await sound.loadAsync({ uri: soundSource });
       await sound.playAsync();
       if (await sound) {
         // console.log("sound is loaded");
@@ -42,19 +53,14 @@ const TalkScreen = () => {
   }
 
   const sequenceAudioAndChat = () => {
-    let filenum = "01_01";
-    let soundA = require("../assets/sounds/voices/nurse/" + filenum + "a.m4a");
-    let soundB = require("../assets/sounds/voices/nurse/" + filenum + "b.m4a");
-    let soundC = require("../assets/sounds/voices/nurse/" + filenum + "c.m4a");
-
-    playSound(soundA);
+    playSound(voiceSrcA);
     visivleMessage1();
     setTimeout(() => {
-      playSound(soundB);
+      playSound(voiceSrcB);
       visivleMessage2();
     }, 3000);
     setTimeout(() => {
-      playSound(soundC);
+      playSound(voiceSrcC);
       visivleMessage3();
     }, 6000);
   };
@@ -69,7 +75,43 @@ const TalkScreen = () => {
     setIsVisibleMessage3(true);
   };
 
+  const formatDoubleDigits = (num: number) => {
+    const formted = ("0" + (num + 1)).slice(-2);
+    return formted;
+  };
+
+  const situationJudger = (situationId: number) => {
+    var situationName: string = "";
+    situationId === 0
+      ? (situationName = "nurse")
+      : situationId === 1
+      ? (situationName = "meal")
+      : (situationName = "life");
+    return situationName;
+  };
+
+  const voiceSourceMaker = (order: "a" | "b" | "c") => {
+    var src: string =
+      "http://ilab.watson.jp/Test/NakamuraYutaTest/voices/" +
+      situationJudger(situation.id) +
+      "/" +
+      formatDoubleDigits(chapter.id) +
+      "_" +
+      formatDoubleDigits(part.id) +
+      order +
+      ".m4a";
+
+    console.log(src);
+    return src;
+  };
+
   React.useEffect(() => {
+    setVoiceTexts(
+      voiceDatas[situation.id].datas[chapter.id].voiceTexts[part.id]
+    );
+    setVoiceSrcA(voiceSourceMaker("a"));
+    setVoiceSrcB(voiceSourceMaker("b"));
+    setVoiceSrcC(voiceSourceMaker("c"));
     setIsVisibleMessage1(false);
     setIsVisibleMessage2(false);
     setIsVisibleMessage3(false);
