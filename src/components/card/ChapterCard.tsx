@@ -2,9 +2,8 @@ import { VFC } from "react";
 import { Card, Title } from "react-native-paper";
 import { useNavigation } from "@react-navigation/native";
 import { Text } from "react-native";
-import { chapterState } from "../../store/chapterState";
-import { useSetRecoilState } from "recoil";
-import { partState } from "../../store/partState";
+import { playingTargetState } from "../../store/playingTargetState";
+import { useRecoilState, useSetRecoilState } from "recoil";
 
 type Props = {
   num: number;
@@ -15,18 +14,24 @@ type Props = {
 export const ChapterCard: VFC<Props> = (props) => {
   const { title, num, id } = props;
   const navigation = useNavigation();
-  const setChapter = useSetRecoilState(chapterState);
-  const setPart = useSetRecoilState(partState);
+  const [playingTarget, setPlayingTarget] = useRecoilState(playingTargetState);
 
   const onCardButton = () => {
     navigation.navigate("トーク画面");
-    setChapter({
-      label: title,
-      id: id,
-    });
-    setPart({
-      label: "part01",
-      id: 0,
+
+    setPlayingTarget({
+      situation: {
+        label: playingTarget.situation.label,
+        id: playingTarget.situation.id,
+      },
+      chapter: {
+        label: title,
+        id: id,
+      },
+      part: {
+        label: "part01",
+        id: 0,
+      },
     });
   };
 

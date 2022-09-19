@@ -6,13 +6,10 @@ import { RootStackParamList } from "../App";
 
 import { TextLarge } from "../components/text/TextLarge";
 import { CommonButton } from "../components/button/CommonButton";
-import { useRecoilValue } from "recoil";
-import { situationState } from "../store/situationState";
 
 type homeScreenProp = StackNavigationProp<RootStackParamList, "Home">;
 const HomeScreen = () => {
   const navigation = useNavigation<homeScreenProp>();
-  const situation = useRecoilValue(situationState);
   return (
     <View
       style={{

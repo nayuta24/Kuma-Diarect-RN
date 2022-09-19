@@ -1,8 +1,8 @@
 import { VFC } from "react";
 import { Button, Card, Paragraph, Title } from "react-native-paper";
 import { useNavigation } from "@react-navigation/native";
-import { useSetRecoilState } from "recoil";
-import { situationState } from "../../store/situationState";
+import { useRecoilState } from "recoil";
+import { playingTargetState } from "../../store/playingTargetState";
 
 type Props = {
   title: string;
@@ -14,13 +14,23 @@ type Props = {
 export const SituationCard: VFC<Props> = (props) => {
   const { title, paragraph, image, id } = props;
   const navigation = useNavigation();
-  const setSituation = useSetRecoilState(situationState);
+  const [playingTarget, setPlayingTarget] = useRecoilState(playingTargetState);
 
   const onCardButtonPress = () => {
     navigation.navigate("チャプター選択");
-    setSituation({
-      label: title,
-      id: id,
+    setPlayingTarget({
+      situation: {
+        label: title,
+        id: id,
+      },
+      chapter: {
+        label: playingTarget.chapter.label,
+        id: playingTarget.chapter.id,
+      },
+      part: {
+        label: playingTarget.part.label,
+        id: playingTarget.part.id,
+      },
     });
   };
 

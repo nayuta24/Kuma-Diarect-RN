@@ -8,10 +8,6 @@ import { Header } from "../components/Header";
 import { situationState } from "../store/situationState";
 import { voiceDatas } from "../_constants/voiceDatas";
 
-type ChapterType = {
-  title: string;
-};
-
 // 場面ごとのさらに細かいチャプター選択画面
 const ChapterScreen = () => {
   const situation = useRecoilValue(situationState);
