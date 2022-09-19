@@ -1,9 +1,16 @@
 import * as React from "react";
 import { View } from "react-native";
-import { ScrollView } from "react-native-gesture-handler";
 import { useRecoilValue } from "recoil";
 import { Audio } from "expo-av";
-import { Button } from "react-native-paper";
+import {
+  Button,
+  IconButton,
+  Surface,
+  Text,
+  MD3Colors,
+  Switch,
+  ActivityIndicator,
+} from "react-native-paper";
 
 import { Header } from "../components/Header";
 import { chapterState } from "../store/chapterState";
@@ -12,16 +19,50 @@ import { situationState } from "../store/situationState";
 import { partState } from "../store/partState";
 import { voiceDatas } from "../_constants/voiceDatas";
 
+type voicesAndTextsType = {
+  voiceA: {
+    text: string;
+    voiceSrc: string;
+  };
+  voiceB: {
+    text: string;
+    voiceSrc: string;
+  };
+  voiceC: {
+    text: string;
+    voiceSrc: string;
+  };
+  voiceB2: {
+    text: string;
+    voiceSrc: string;
+  };
+};
+
 // 場面ごとのさらに細かいチャプター選択画面
 const TalkScreen = () => {
   const situation = useRecoilValue(situationState);
   const chapter = useRecoilValue(chapterState);
   const part = useRecoilValue(partState);
 
-  const [voiceTexts, setVoiceTexts] = React.useState<Array<string>>([]);
-  const [voiceSrcA, setVoiceSrcA] = React.useState<string>("");
-  const [voiceSrcB, setVoiceSrcB] = React.useState<string>("");
-  const [voiceSrcC, setVoiceSrcC] = React.useState<string>("");
+  const [voicesAndTexts, setVoicesAndTexts] =
+    React.useState<voicesAndTextsType>({
+      voiceA: {
+        text: "",
+        voiceSrc: "",
+      },
+      voiceB: {
+        text: "",
+        voiceSrc: "",
+      },
+      voiceC: {
+        text: "",
+        voiceSrc: "",
+      },
+      voiceB2: {
+        text: "",
+        voiceSrc: "",
+      },
+    });
 
   const [isVisivleMessage1, setIsVisibleMessage1] =
     React.useState<boolean>(false);
@@ -53,16 +94,21 @@ const TalkScreen = () => {
   }
 
   const sequenceAudioAndChat = () => {
-    playSound(voiceSrcA);
-    visivleMessage1();
+    setIsVisibleMessage1(false);
+    setIsVisibleMessage2(false);
+    setIsVisibleMessage3(false);
     setTimeout(() => {
-      playSound(voiceSrcB);
+      playSound(voicesAndTexts.voiceA.voiceSrc);
+      visivleMessage1();
+    }, 1000);
+    setTimeout(() => {
+      playSound(voicesAndTexts.voiceB.voiceSrc);
       visivleMessage2();
-    }, 3000);
+    }, 4000);
     setTimeout(() => {
-      playSound(voiceSrcC);
+      playSound(voicesAndTexts.voiceC.voiceSrc);
       visivleMessage3();
-    }, 6000);
+    }, 7000);
   };
 
   const visivleMessage1 = () => {
@@ -90,7 +136,8 @@ const TalkScreen = () => {
     return situationName;
   };
 
-  const voiceSourceMaker = (order: "a" | "b" | "c") => {
+  // 音声ファイルのパスを作成
+  const voiceSourceMaker = (order: "a" | "b" | "c" | "b2") => {
     var src: string =
       "http://ilab.watson.jp/Test/NakamuraYutaTest/voices/" +
       situationJudger(situation.id) +
@@ -101,39 +148,159 @@ const TalkScreen = () => {
       order +
       ".m4a";
 
-    console.log(src);
+    // console.log(src);
     return src;
   };
 
+  // 画面表示後、音声とテキストをセット
   React.useEffect(() => {
-    setVoiceTexts(
-      voiceDatas[situation.id].datas[chapter.id].voiceTexts[part.id]
-    );
-    setVoiceSrcA(voiceSourceMaker("a"));
-    setVoiceSrcB(voiceSourceMaker("b"));
-    setVoiceSrcC(voiceSourceMaker("c"));
-    setIsVisibleMessage1(false);
-    setIsVisibleMessage2(false);
-    setIsVisibleMessage3(false);
+    setVoicesAndTexts({
+      voiceA: {
+        text: voiceDatas[situation.id].datas[chapter.id].voiceTexts[part.id][0],
+        voiceSrc: voiceSourceMaker("a"),
+      },
+      voiceB: {
+        text: voiceDatas[situation.id].datas[chapter.id].voiceTexts[part.id][1],
+        voiceSrc: voiceSourceMaker("b"),
+      },
+      voiceC: {
+        text: voiceDatas[situation.id].datas[chapter.id].voiceTexts[part.id][2],
+        voiceSrc: voiceSourceMaker("c"),
+      },
+      voiceB2: {
+        text: voiceDatas[situation.id].datas[chapter.id].voiceTexts[part.id][3],
+        voiceSrc: voiceSourceMaker("b2"),
+      },
+    });
   }, []);
+
+  // 場面かチャプターが変わったら音声とテキストをセットしなおす
+  React.useEffect(() => {
+    setVoicesAndTexts({
+      voiceA: {
+        text: voiceDatas[situation.id].datas[chapter.id].voiceTexts[part.id][0],
+        voiceSrc: voiceSourceMaker("a"),
+      },
+      voiceB: {
+        text: voiceDatas[situation.id].datas[chapter.id].voiceTexts[part.id][1],
+        voiceSrc: voiceSourceMaker("b"),
+      },
+      voiceC: {
+        text: voiceDatas[situation.id].datas[chapter.id].voiceTexts[part.id][2],
+        voiceSrc: voiceSourceMaker("c"),
+      },
+      voiceB2: {
+        text: voiceDatas[situation.id].datas[chapter.id].voiceTexts[part.id][3],
+        voiceSrc: voiceSourceMaker("b2"),
+      },
+    });
+  }, [chapter.id, part.id]);
+
+  // 音声とテキストがセットされたら音声再生
+  React.useEffect(() => {
+    sequenceAudioAndChat();
+  }, [voicesAndTexts]);
 
   return (
     <>
       <Header pageTitle={chapter.label} />
-      <ScrollView>
+      <View>
+        {isVisivleMessage1 && (
+          <ChatBubbleButton speaker={1} text={voicesAndTexts.voiceA.text} />
+        )}
+        {isVisivleMessage2 && (
+          <ChatBubbleButton speaker={2} text={voicesAndTexts.voiceB.text} />
+        )}
+        {isVisivleMessage3 && (
+          <ChatBubbleButton speaker={1} text={voicesAndTexts.voiceC.text} />
+        )}
+      </View>
+      <Surface
+        style={{
+          position: "absolute",
+          left: 0,
+          right: 0,
+          bottom: 0,
+          height: 250,
+          borderTopRightRadius: 20,
+          borderTopLeftRadius: 20,
+          alignItems: "center",
+        }}
+      >
         <View>
-          <Button onPress={sequenceAudioAndChat}>音声再生</Button>
-          {isVisivleMessage1 && (
-            <ChatBubbleButton speaker={1} text="カーテンを開けましょうか？" />
-          )}
-          {isVisivleMessage2 && (
-            <ChatBubbleButton speaker={2} text="まぶいかけん、よかたい。" />
-          )}
-          {isVisivleMessage3 && (
-            <ChatBubbleButton speaker={1} text="開けるときは呼んでください。" />
-          )}
+          <Text
+            style={{
+              textAlign: "center",
+              fontSize: 33,
+              fontWeight: "bold",
+              color: "purple",
+              marginVertical: 20,
+            }}
+          >
+            {"チャプター" + formatDoubleDigits(part.id)}
+          </Text>
+          <View style={{ flexDirection: "row", alignItems: "center" }}>
+            <IconButton
+              icon={"arrow-left-bold-circle-outline"}
+              iconColor={"purple"}
+              size={60}
+              style={{ marginHorizontal: 25 }}
+            />
+            <View style={{ marginBottom: 20 }}>
+              <Button
+                mode="contained"
+                onPress={sequenceAudioAndChat}
+                style={{ marginVertical: 10 }}
+              >
+                もう一度再生
+              </Button>
+              <View
+                style={{
+                  flexDirection: "row",
+                  alignItems: "center",
+                  marginTop: 10,
+                }}
+              >
+                <Text
+                  style={{
+                    textAlign: "center",
+                    fontSize: 15,
+                    marginRight: 10,
+                  }}
+                >
+                  自動再生モード
+                </Text>
+                <Switch value={false}></Switch>
+              </View>
+            </View>
+            <IconButton
+              icon={"arrow-right-bold-circle-outline"}
+              iconColor={"purple"}
+              size={60}
+              style={{ marginHorizontal: 25 }}
+            />
+          </View>
         </View>
-      </ScrollView>
+      </Surface>
+
+      {/* 押せないようにカバーする */}
+      <Surface
+        style={{
+          position: "absolute",
+          left: 0,
+          right: 0,
+          bottom: 0,
+          height: 250,
+          borderTopRightRadius: 20,
+          borderTopLeftRadius: 20,
+          alignItems: "center",
+          justifyContent: "center",
+          backgroundColor: "gray",
+          opacity: 0.2,
+        }}
+      >
+        <ActivityIndicator animating={true} color="purple" size={90} />
+      </Surface>
     </>
   );
 };
