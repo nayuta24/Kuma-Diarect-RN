@@ -5,17 +5,18 @@ import { useRecoilValue } from "recoil";
 
 import { ChapterCard } from "../components/card/ChapterCard";
 import { Header } from "../components/Header";
-import { situationState } from "../store/situationState";
+import { playingTargetState } from "../store/playingTargetState";
 import { voiceDatas } from "../_constants/voiceDatas";
 
 // 場面ごとのさらに細かいチャプター選択画面
 const ChapterScreen = () => {
-  const situation = useRecoilValue(situationState);
-  const selectedSituationChapters = voiceDatas[situation.id].datas;
+  const playingTarget = useRecoilValue(playingTargetState);
+  const selectedSituationChapters =
+    voiceDatas[playingTarget.situation.id].datas;
 
   return (
     <>
-      <Header pageTitle={situation.label} />
+      <Header pageTitle={playingTarget.situation.label} />
       <ScrollView>
         <View>
           {selectedSituationChapters.map((chapter, index) => (

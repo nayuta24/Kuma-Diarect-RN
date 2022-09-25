@@ -3,7 +3,7 @@ import { Card, Title } from "react-native-paper";
 import { useNavigation } from "@react-navigation/native";
 import { Text } from "react-native";
 import { playingTargetState } from "../../store/playingTargetState";
-import { useRecoilState, useSetRecoilState } from "recoil";
+import { useRecoilState } from "recoil";
 
 type Props = {
   num: number;
