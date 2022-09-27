@@ -4,6 +4,7 @@ import { useNavigation } from "@react-navigation/native";
 import { Text } from "react-native";
 import { playingTargetState } from "../../store/playingTargetState";
 import { useRecoilState } from "recoil";
+import { useFormatDoubleDigits } from "../../hooks/useFormatDoubleDigits";
 
 type Props = {
   num: number;
@@ -49,7 +50,7 @@ export const ChapterCard: VFC<Props> = (props) => {
             fontSize: 15,
           }}
         >
-          {("0" + num).slice(-2)}
+          {useFormatDoubleDigits(num - 1)}
         </Text>
         <Title
           style={{

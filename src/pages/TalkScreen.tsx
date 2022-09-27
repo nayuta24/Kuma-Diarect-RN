@@ -1,22 +1,16 @@
 import * as React from "react";
 import { View } from "react-native";
-import { useRecoilState, useRecoilValue } from "recoil";
-import { Audio } from "expo-av";
-import {
-  Button,
-  IconButton,
-  Surface,
-  Text,
-  Switch,
-  ActivityIndicator,
-} from "react-native-paper";
+import { useRecoilState } from "recoil";
+import { Button, IconButton, Surface, Text, Switch } from "react-native-paper";
 
 import { Header } from "../components/Header";
 import { playingTargetState } from "../store/playingTargetState";
 import { ChatBubbleButton } from "../components/button/ChatBubbleButton";
-import { situationState } from "../store/situationState";
-import { partState } from "../store/partState";
 import { voiceDatas } from "../_constants/voiceDatas";
+import { useFormatDoubleDigits } from "../hooks/useFormatDoubleDigits";
+import { useVoiceURLMaker } from "../hooks/useVoiceURLMaker";
+import { usePlaySound } from "../hooks/usePlaySound";
+import { useStopSound } from "../hooks/useStopSound";
 
 type voicesAndTextsType = {
   voiceA: {
@@ -90,28 +84,7 @@ const TalkScreen = () => {
   const [isVisivleMessageC, setIsVisibleMessageC] =
     React.useState<boolean>(false);
 
-  async function playSound(soundSource: string) {
-    try {
-      await Audio.setIsEnabledAsync(true);
-      const sound = new Audio.Sound();
-      await sound.loadAsync({ uri: soundSource });
-      await sound.playAsync();
-      if (await sound) {
-        // console.log("sound is loaded");
-      }
-    } catch (error) {
-      console.log("error audio play");
-    }
-  }
-
-  async function stopSound() {
-    try {
-      await Audio.setIsEnabledAsync(false);
-    } catch (error) {
-      // console.log("error audio stop");
-    }
-  }
-
+  // 音声とテキストを順番に再生するためのフラグを順番にtrueにしていく
   const sequenceAudioAndChat = () => {
     setFlgPlayA(false);
     setFlgPlayB(false);
@@ -139,21 +112,23 @@ const TalkScreen = () => {
     }, TimeFirstStart + voicesAndTexts.voiceA.playTime + voicesAndTexts.voiceB.playTime + voicesAndTexts.voiceC.playTime);
   };
 
+  // それぞれのフラグがtrueになった時点でそれぞれの音声を再生
   React.useEffect(() => {
     flgPlayA &&
       isPlayingSequence &&
-      (playSound(voicesAndTexts.voiceA.voiceSrc), visivleMessageA());
+      (usePlaySound(voicesAndTexts.voiceA.voiceSrc), visivleMessageA());
   }, [flgPlayA]);
   React.useEffect(() => {
     flgPlayB &&
       isPlayingSequence &&
-      (playSound(voicesAndTexts.voiceB.voiceSrc), visivleMessageB());
+      (usePlaySound(voicesAndTexts.voiceB.voiceSrc), visivleMessageB());
   }, [flgPlayB]);
   React.useEffect(() => {
     flgPlayC &&
       isPlayingSequence &&
-      (playSound(voicesAndTexts.voiceC.voiceSrc), visivleMessageC());
+      (usePlaySound(voicesAndTexts.voiceC.voiceSrc), visivleMessageC());
   }, [flgPlayC]);
+  // 再生終了後の処理発動用
   React.useEffect(() => {
     flgPlayFinished && isPlayingSequence && setIsDisabledReplayButton(false);
   }, [flgPlayFinished]);
@@ -168,40 +143,10 @@ const TalkScreen = () => {
     setIsVisibleMessageC(true);
   };
 
+  // 再生ストップ
   const stopSequence = () => {
-    stopSound();
+    useStopSound();
     setIsPlayingSequence(false);
-  };
-
-  const formatDoubleDigits = (num: number) => {
-    const formted = ("0" + (num + 1)).slice(-2);
-    return formted;
-  };
-
-  const situationJudger = (situationId: number) => {
-    var situationName: string = "";
-    situationId === 0
-      ? (situationName = "nurse")
-      : situationId === 1
-      ? (situationName = "meal")
-      : (situationName = "life");
-    return situationName;
-  };
-
-  // 音声ファイルのパスを作成
-  const voiceSourceMaker = (order: "a" | "b" | "c" | "b2") => {
-    var src: string =
-      "http://ilab.watson.jp/Test/NakamuraYutaTest/voices/" +
-      situationJudger(situation.id) +
-      "/" +
-      formatDoubleDigits(chapter.id) +
-      "_" +
-      formatDoubleDigits(part.id) +
-      order +
-      ".m4a";
-
-    // console.log(src);
-    return src;
   };
 
   // 画面表示後、音声とテキストをセット
@@ -209,28 +154,28 @@ const TalkScreen = () => {
     setVoicesAndTexts({
       voiceA: {
         text: voiceDatas[situation.id].datas[chapter.id].voiceTexts[part.id][0],
-        voiceSrc: voiceSourceMaker("a"),
+        voiceSrc: useVoiceURLMaker("a", situation.id, chapter.id, part.id),
         playTime:
           voiceDatas[situation.id].datas[chapter.id].voiceTexts[part.id][0]
             .length * 300,
       },
       voiceB: {
         text: voiceDatas[situation.id].datas[chapter.id].voiceTexts[part.id][1],
-        voiceSrc: voiceSourceMaker("b"),
+        voiceSrc: useVoiceURLMaker("b", situation.id, chapter.id, part.id),
         playTime:
           voiceDatas[situation.id].datas[chapter.id].voiceTexts[part.id][1]
             .length * 300,
       },
       voiceC: {
         text: voiceDatas[situation.id].datas[chapter.id].voiceTexts[part.id][2],
-        voiceSrc: voiceSourceMaker("c"),
+        voiceSrc: useVoiceURLMaker("c", situation.id, chapter.id, part.id),
         playTime:
           voiceDatas[situation.id].datas[chapter.id].voiceTexts[part.id][2]
             .length * 300,
       },
       voiceB2: {
         text: voiceDatas[situation.id].datas[chapter.id].voiceTexts[part.id][3],
-        voiceSrc: voiceSourceMaker("b2"),
+        voiceSrc: useVoiceURLMaker("b2", situation.id, chapter.id, part.id),
         playTime:
           voiceDatas[situation.id].datas[chapter.id].voiceTexts[part.id][3]
             .length * 300,
@@ -243,28 +188,28 @@ const TalkScreen = () => {
     setVoicesAndTexts({
       voiceA: {
         text: voiceDatas[situation.id].datas[chapter.id].voiceTexts[part.id][0],
-        voiceSrc: voiceSourceMaker("a"),
+        voiceSrc: useVoiceURLMaker("a", situation.id, chapter.id, part.id),
         playTime:
           voiceDatas[situation.id].datas[chapter.id].voiceTexts[part.id][0]
             .length * 300,
       },
       voiceB: {
         text: voiceDatas[situation.id].datas[chapter.id].voiceTexts[part.id][1],
-        voiceSrc: voiceSourceMaker("b"),
+        voiceSrc: useVoiceURLMaker("b", situation.id, chapter.id, part.id),
         playTime:
           voiceDatas[situation.id].datas[chapter.id].voiceTexts[part.id][1]
             .length * 300,
       },
       voiceC: {
         text: voiceDatas[situation.id].datas[chapter.id].voiceTexts[part.id][2],
-        voiceSrc: voiceSourceMaker("c"),
+        voiceSrc: useVoiceURLMaker("c", situation.id, chapter.id, part.id),
         playTime:
           voiceDatas[situation.id].datas[chapter.id].voiceTexts[part.id][2]
             .length * 300,
       },
       voiceB2: {
         text: voiceDatas[situation.id].datas[chapter.id].voiceTexts[part.id][3],
-        voiceSrc: voiceSourceMaker("b2"),
+        voiceSrc: useVoiceURLMaker("b2", situation.id, chapter.id, part.id),
         playTime:
           voiceDatas[situation.id].datas[chapter.id].voiceTexts[part.id][3]
             .length * 300,
@@ -338,7 +283,7 @@ const TalkScreen = () => {
               marginVertical: 20,
             }}
           >
-            {"チャプター" + formatDoubleDigits(part.id)}
+            {"チャプター" + useFormatDoubleDigits(part.id)}
           </Text>
           <View style={{ flexDirection: "row", alignItems: "center" }}>
             <IconButton
@@ -387,24 +332,6 @@ const TalkScreen = () => {
           </View>
         </View>
       </Surface>
-
-      {/* 押せないようにカバーする */}
-      {/* <Surface
-        style={{
-          position: "absolute",
-          left: 0,
-          right: 0,
-          bottom: 0,
-          height: 250,
-          borderTopRightRadius: 20,
-          borderTopLeftRadius: 20,
-          alignItems: "center",
-          justifyContent: "center",
-          backgroundColor: "gray",
-          opacity: 0.2,
-        } }      >
-        <ActivityIndicator animating={true} color="purple" size={90} />
-      </Surface> */}
     </>
   );
 };
