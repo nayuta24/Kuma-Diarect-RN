@@ -11,7 +11,7 @@ export const playingTargetState = atom( {
             label: "チャプター名",
             id: 0
         },
-        hasVoice: false,
+        hasStandardVoice: false,
         part: {
             label: "パート番号",
             id: 0

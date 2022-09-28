@@ -27,7 +27,7 @@ export const SituationCard: VFC<Props> = (props) => {
         label: playingTarget.chapter.label,
         id: playingTarget.chapter.id,
       },
-      hasVoice: playingTarget.hasVoice,
+      hasStandardVoice: playingTarget.hasStandardVoice,
       part: {
         label: playingTarget.part.label,
         id: playingTarget.part.id,

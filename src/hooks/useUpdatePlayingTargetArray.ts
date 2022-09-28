@@ -1,22 +1,17 @@
-import { useRecoilState, useSetRecoilState } from "recoil";
-import { playingTargetArrayState } from "../store/playingTargetArrayState"
 import { voiceDatas } from "../_constants/voiceDatas";
 
 export const useUpdatePlayingTargetArray = ( situationId: number, chapterId: number, hasStandardVoice: boolean, part: number ) =>
 {
-    const [playingTargetArray ,setPlayingTargetArray] = useRecoilState(playingTargetArrayState);
 
     if (hasStandardVoice) {
-      setPlayingTargetArray(
+      return(
         voiceDatas[situationId].datas.hasStandardVoice[chapterId]
           .voiceTexts[part]
       );
     } else {
-      setPlayingTargetArray(
+      return(
         voiceDatas[situationId].datas.nonStandardVoice[chapterId]
           .voiceTexts[part]
       );
     }
-    
-    console.log(voiceDatas[situationId].datas.nonStandardVoice[chapterId].voiceTexts[part]);
 }

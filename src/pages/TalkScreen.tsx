@@ -6,11 +6,14 @@ import { Button, IconButton, Surface, Text, Switch } from "react-native-paper";
 import { Header } from "../components/Header";
 import { playingTargetState } from "../store/playingTargetState";
 import { ChatBubbleButton } from "../components/button/ChatBubbleButton";
-import { voiceDatas } from "../_constants/voiceDatas";
 import { useFormatDoubleDigits } from "../hooks/useFormatDoubleDigits";
 import { useVoiceURLMaker } from "../hooks/useVoiceURLMaker";
 import { usePlaySound } from "../hooks/usePlaySound";
 import { useStopSound } from "../hooks/useStopSound";
+import { playingTargetArrayState } from "../store/playingTargetArrayState";
+import { useUpdatePlayingTargetArray } from "../hooks/useUpdatePlayingTargetArray";
+import { useNextPlayingTarget } from "../hooks/useNextPlayingTarget";
+import { usePrevPlayingTarget } from "../hooks/usePrevPlayingTarget";
 
 type voicesAndTextsType = {
   voiceA: {
@@ -38,7 +41,10 @@ type voicesAndTextsType = {
 // 場面ごとのさらに細かいチャプター選択画面
 const TalkScreen = () => {
   const [playingTarget, setPlayingTarget] = useRecoilState(playingTargetState);
-  const { situation, chapter, part } = playingTarget;
+  const [playingTargetArray, setPlayingTargetArray] = useRecoilState(
+    playingTargetArrayState
+  );
+  const { situation, chapter, hasStandardVoice, part } = playingTarget;
 
   const [voicesAndTexts, setVoicesAndTexts] =
     React.useState<voicesAndTextsType>({
@@ -77,23 +83,14 @@ const TalkScreen = () => {
     React.useState<boolean>(true);
   const [continueMode, setContinueMode] = React.useState<boolean>(false);
 
-  const [isVisivleMessageA, setIsVisibleMessageA] =
-    React.useState<boolean>(false);
-  const [isVisivleMessageB, setIsVisibleMessageB] =
-    React.useState<boolean>(false);
-  const [isVisivleMessageC, setIsVisibleMessageC] =
-    React.useState<boolean>(false);
-
   // 音声とテキストを順番に再生するためのフラグを順番にtrueにしていく
   const sequenceAudioAndChat = () => {
     setFlgPlayA(false);
     setFlgPlayB(false);
     setFlgPlayC(false);
     setFlgPlayFinished(false);
+
     setIsPlayingSequence(true);
-    setIsVisibleMessageA(false);
-    setIsVisibleMessageB(false);
-    setIsVisibleMessageC(false);
     setIsPlayingFinished(false);
     setIsDisabledReplayButton(true);
     const TimeFirstStart = 1200;
@@ -116,32 +113,22 @@ const TalkScreen = () => {
   React.useEffect(() => {
     flgPlayA &&
       isPlayingSequence &&
-      (usePlaySound(voicesAndTexts.voiceA.voiceSrc), visivleMessageA());
+      usePlaySound(voicesAndTexts.voiceA.voiceSrc);
   }, [flgPlayA]);
   React.useEffect(() => {
     flgPlayB &&
       isPlayingSequence &&
-      (usePlaySound(voicesAndTexts.voiceB.voiceSrc), visivleMessageB());
+      usePlaySound(voicesAndTexts.voiceB.voiceSrc);
   }, [flgPlayB]);
   React.useEffect(() => {
     flgPlayC &&
       isPlayingSequence &&
-      (usePlaySound(voicesAndTexts.voiceC.voiceSrc), visivleMessageC());
+      usePlaySound(voicesAndTexts.voiceC.voiceSrc);
   }, [flgPlayC]);
   // 再生終了後の処理発動用
   React.useEffect(() => {
     flgPlayFinished && isPlayingSequence && setIsDisabledReplayButton(false);
   }, [flgPlayFinished]);
-
-  const visivleMessageA = () => {
-    setIsVisibleMessageA(true);
-  };
-  const visivleMessageB = () => {
-    setIsVisibleMessageB(true);
-  };
-  const visivleMessageC = () => {
-    setIsVisibleMessageC(true);
-  };
 
   // 再生ストップ
   const stopSequence = () => {
@@ -149,115 +136,68 @@ const TalkScreen = () => {
     setIsPlayingSequence(false);
   };
 
-  // 画面表示後、音声とテキストをセット
+  // 再生対象が変更されたら、再生対象配列を更新
   React.useEffect(() => {
-    setVoicesAndTexts({
-      voiceA: {
-        text: voiceDatas[situation.id].datas[chapter.id].voiceTexts[part.id][0],
-        voiceSrc: useVoiceURLMaker("a", situation.id, chapter.id, part.id),
-        playTime:
-          voiceDatas[situation.id].datas[chapter.id].voiceTexts[part.id][0]
-            .length * 300,
-      },
-      voiceB: {
-        text: voiceDatas[situation.id].datas[chapter.id].voiceTexts[part.id][1],
-        voiceSrc: useVoiceURLMaker("b", situation.id, chapter.id, part.id),
-        playTime:
-          voiceDatas[situation.id].datas[chapter.id].voiceTexts[part.id][1]
-            .length * 300,
-      },
-      voiceC: {
-        text: voiceDatas[situation.id].datas[chapter.id].voiceTexts[part.id][2],
-        voiceSrc: useVoiceURLMaker("c", situation.id, chapter.id, part.id),
-        playTime:
-          voiceDatas[situation.id].datas[chapter.id].voiceTexts[part.id][2]
-            .length * 300,
-      },
-      voiceB2: {
-        text: voiceDatas[situation.id].datas[chapter.id].voiceTexts[part.id][3],
-        voiceSrc: useVoiceURLMaker("b2", situation.id, chapter.id, part.id),
-        playTime:
-          voiceDatas[situation.id].datas[chapter.id].voiceTexts[part.id][3]
-            .length * 300,
-      },
-    });
-  }, []);
-
-  // チャプターが変わったら音声とテキストをセットしなおす
-  React.useEffect(() => {
-    setVoicesAndTexts({
-      voiceA: {
-        text: voiceDatas[situation.id].datas[chapter.id].voiceTexts[part.id][0],
-        voiceSrc: useVoiceURLMaker("a", situation.id, chapter.id, part.id),
-        playTime:
-          voiceDatas[situation.id].datas[chapter.id].voiceTexts[part.id][0]
-            .length * 300,
-      },
-      voiceB: {
-        text: voiceDatas[situation.id].datas[chapter.id].voiceTexts[part.id][1],
-        voiceSrc: useVoiceURLMaker("b", situation.id, chapter.id, part.id),
-        playTime:
-          voiceDatas[situation.id].datas[chapter.id].voiceTexts[part.id][1]
-            .length * 300,
-      },
-      voiceC: {
-        text: voiceDatas[situation.id].datas[chapter.id].voiceTexts[part.id][2],
-        voiceSrc: useVoiceURLMaker("c", situation.id, chapter.id, part.id),
-        playTime:
-          voiceDatas[situation.id].datas[chapter.id].voiceTexts[part.id][2]
-            .length * 300,
-      },
-      voiceB2: {
-        text: voiceDatas[situation.id].datas[chapter.id].voiceTexts[part.id][3],
-        voiceSrc: useVoiceURLMaker("b2", situation.id, chapter.id, part.id),
-        playTime:
-          voiceDatas[situation.id].datas[chapter.id].voiceTexts[part.id][3]
-            .length * 300,
-      },
-    });
+    setPlayingTargetArray(
+      useUpdatePlayingTargetArray(
+        situation.id,
+        chapter.id,
+        hasStandardVoice,
+        part.id
+      )
+    );
   }, [playingTarget]);
 
-  // 音声とテキストがセットされたら音声再生
+  // 再生対象配列が更新されたら、音声URL・テキスト・再生時間をセット
+  React.useEffect(() => {
+    setVoicesAndTexts({
+      voiceA: {
+        text: playingTargetArray[0],
+        voiceSrc: useVoiceURLMaker("a", situation.id, chapter.id, part.id),
+        playTime: playingTargetArray[0].length * 300,
+      },
+      voiceB: {
+        text: playingTargetArray[1],
+        voiceSrc: useVoiceURLMaker("b", situation.id, chapter.id, part.id),
+        playTime: playingTargetArray[1].length * 300,
+      },
+      voiceC: {
+        text: playingTargetArray[2],
+        voiceSrc: useVoiceURLMaker("c", situation.id, chapter.id, part.id),
+        playTime: playingTargetArray[2].length * 300,
+      },
+      voiceB2: {
+        text: playingTargetArray[3],
+        voiceSrc: useVoiceURLMaker("b2", situation.id, chapter.id, part.id),
+        playTime: playingTargetArray[3].length * 300,
+      },
+    });
+  }, [playingTargetArray]);
+
+  // 音声URL etcがセットされたら音声を再生する
   React.useEffect(() => {
     sequenceAudioAndChat();
   }, [voicesAndTexts]);
 
-  const playNextPart = () => {
-    const maxChapterId = voiceDatas[situation.id].datas.length - 1;
-    const maxPartId =
-      voiceDatas[situation.id].datas[chapter.id].voiceTexts.length - 1;
-    if (part.id < maxPartId) {
-      setPlayingTarget({
-        situation: { id: situation.id, label: situation.label },
-        chapter: { id: chapter.id, label: chapter.label },
-        part: { id: part.id + 1, label: part.label },
-      });
-    } else if (chapter.id < maxChapterId) {
-      setPlayingTarget({
-        situation: { id: situation.id, label: situation.label },
-        chapter: { id: chapter.id + 1, label: chapter.label },
-        part: { id: 0, label: part.label },
-      });
-    } else {
-      setPlayingTarget({
-        situation: { id: situation.id, label: situation.label },
-        chapter: { id: 0, label: chapter.label },
-        part: { id: 0, label: part.label },
-      });
-    }
+  // 次の音声再生
+  const playNext = () => {
+    setPlayingTarget(useNextPlayingTarget(playingTarget));
+  };
+  const playPrev = () => {
+    setPlayingTarget(usePrevPlayingTarget(playingTarget));
   };
 
   return (
     <>
       <Header pageTitle={chapter.label} onPress={stopSequence} />
       <View>
-        {isVisivleMessageA && (
+        {flgPlayA && (
           <ChatBubbleButton speaker={1} text={voicesAndTexts.voiceA.text} />
         )}
-        {isVisivleMessageB && (
+        {flgPlayB && (
           <ChatBubbleButton speaker={2} text={voicesAndTexts.voiceB.text} />
         )}
-        {isVisivleMessageC && (
+        {flgPlayC && (
           <ChatBubbleButton speaker={1} text={voicesAndTexts.voiceC.text} />
         )}
       </View>
@@ -291,8 +231,8 @@ const TalkScreen = () => {
               iconColor={"purple"}
               size={60}
               style={{ marginHorizontal: 25 }}
-              disabled={chapter.id === 0 && part.id === 0}
-              onPress={() => playNextPart()}
+              // disabled={chapter.id === 0 && part.id === 0}
+              onPress={playPrev}
             />
             <View style={{ marginBottom: 20 }}>
               <Button
@@ -327,7 +267,7 @@ const TalkScreen = () => {
               iconColor={"purple"}
               size={60}
               style={{ marginHorizontal: 25 }}
-              onPress={stopSequence}
+              onPress={playNext}
             />
           </View>
         </View>

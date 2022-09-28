@@ -6,18 +6,17 @@ import { playingTargetState } from "../../store/playingTargetState";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import { useFormatDoubleDigits } from "../../hooks/useFormatDoubleDigits";
 import { playingTargetArrayState } from "../../store/playingTargetArrayState";
-import { voiceDatas } from "../../_constants/voiceDatas";
 import { useUpdatePlayingTargetArray } from "../../hooks/useUpdatePlayingTargetArray";
 
 type Props = {
   num: number;
   title: string;
   id: number;
-  hasVoice: boolean;
+  hasStandardVoice: boolean;
 };
 
 export const ChapterCard: VFC<Props> = (props) => {
-  const { title, num, id, hasVoice } = props;
+  const { title, num, id, hasStandardVoice } = props;
   const navigation = useNavigation();
   const [playingTarget, setPlayingTarget] = useRecoilState(playingTargetState);
   const setPlayingTargetArray = useSetRecoilState(playingTargetArrayState);
@@ -34,14 +33,21 @@ export const ChapterCard: VFC<Props> = (props) => {
         label: title,
         id: id,
       },
-      hasVoice: hasVoice,
+      hasStandardVoice: hasStandardVoice,
       part: {
         label: "part01",
         id: 0,
       },
     });
 
-    useUpdatePlayingTargetArray(playingTarget.situation.id, id, hasVoice, 0);
+    setPlayingTargetArray(
+      useUpdatePlayingTargetArray(
+        playingTarget.situation.id,
+        id,
+        hasStandardVoice,
+        0
+      )
+    );
   };
 
   return (

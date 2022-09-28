@@ -20,7 +20,8 @@ const ChapterScreen = () => {
       <Header pageTitle={playingTarget.situation.label} />
       <ScrollView>
         <View>
-          <List.Accordion title="標準語ボイスなし">
+          <List.Section>
+            <List.Subheader>標準語音声なし</List.Subheader>
             {selectedSituationChapters.nonStandardVoice.map(
               (chapter, index) => (
                 <ChapterCard
@@ -28,12 +29,11 @@ const ChapterScreen = () => {
                   title={chapter.title}
                   num={index + 1}
                   id={index}
-                  hasVoice={false}
+                  hasStandardVoice={false}
                 />
               )
             )}
-          </List.Accordion>
-          <List.Accordion title="標準語ボイスあり">
+            <List.Subheader>標準語音声あり</List.Subheader>
             {selectedSituationChapters.hasStandardVoice.map(
               (chapter, index) => (
                 <ChapterCard
@@ -41,11 +41,11 @@ const ChapterScreen = () => {
                   title={chapter.title}
                   num={index + 1}
                   id={index}
-                  hasVoice={true}
+                  hasStandardVoice={true}
                 />
               )
             )}
-          </List.Accordion>
+          </List.Section>
         </View>
       </ScrollView>
     </>
