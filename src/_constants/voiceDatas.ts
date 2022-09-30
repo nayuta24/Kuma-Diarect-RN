@@ -185,7 +185,9 @@ export const voiceDatas: voiceDatasType = [
                     ["どうしましたか","歯のおーとらん","お医者さんに診てもらいましょうね","入れ歯が合ってない"],
                 ],
             },
-            {
+            ],
+            hasStandardVoice:[
+                {
                 title: "入れ歯洗浄",
                 voiceTexts: [
                     ["入れ歯を外して洗いましょうか。","よかとね？　ならお願い","じゃあ、ここに置いてください","いいんですか？じゃあお願いします。"],
@@ -248,7 +250,6 @@ export const voiceDatas: voiceDatasType = [
                 ],
             },
             ],
-            hasStandardVoice:[]
         }
     },
     {

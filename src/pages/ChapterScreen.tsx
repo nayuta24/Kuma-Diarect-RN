@@ -14,6 +14,8 @@ const ChapterScreen = () => {
   const playingTarget = useRecoilValue(playingTargetState);
   const selectedSituationChapters =
     voiceDatas[playingTarget.situation.id].datas;
+  const nonStandardVoiceChapterLength =
+    selectedSituationChapters.nonStandardVoice.length;
 
   return (
     <>

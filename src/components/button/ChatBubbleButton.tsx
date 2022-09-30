@@ -1,9 +1,9 @@
 import { VFC } from "react";
 import {} from "react-native";
-import { Button, Text } from "react-native-paper";
+import { Card, Paragraph } from "react-native-paper";
 
 type Props = {
-  speaker: 1 | 2;
+  speaker: 1 | 2 | 3;
   text: string;
 };
 
@@ -13,33 +13,35 @@ export const ChatBubbleButton: VFC<Props> = (props) => {
   return (
     <>
       {speaker === 1 ? (
-        <Button
-          mode="contained-tonal"
+        <Card
           style={{
+            borderRadius: 20,
             borderBottomRightRadius: 0,
             alignSelf: "flex-end",
             width: 250,
             marginRight: 10,
             marginVertical: 20,
           }}
-          contentStyle={{ alignSelf: "flex-start" }}
         >
-          {text}
-        </Button>
+          <Card.Content>
+            <Paragraph>{text}</Paragraph>
+          </Card.Content>
+        </Card>
       ) : (
-        <Button
-          mode="contained-tonal"
+        <Card
           style={{
+            borderRadius: 20,
             borderBottomLeftRadius: 0,
             alignSelf: "flex-start",
             width: 250,
             marginLeft: 10,
             marginVertical: 20,
           }}
-          contentStyle={{ alignSelf: "flex-start" }}
         >
-          {text}
-        </Button>
+          <Card.Content>
+            <Paragraph> {text}</Paragraph>
+          </Card.Content>
+        </Card>
       )}
     </>
   );

@@ -153,22 +153,46 @@ const TalkScreen = () => {
     setVoicesAndTexts({
       voiceA: {
         text: playingTargetArray[0],
-        voiceSrc: useVoiceURLMaker("a", situation.id, chapter.id, part.id),
+        voiceSrc: useVoiceURLMaker(
+          "a",
+          situation.id,
+          chapter.id,
+          part.id,
+          hasStandardVoice
+        ),
         playTime: playingTargetArray[0].length * 300,
       },
       voiceB: {
         text: playingTargetArray[1],
-        voiceSrc: useVoiceURLMaker("b", situation.id, chapter.id, part.id),
+        voiceSrc: useVoiceURLMaker(
+          "b",
+          situation.id,
+          chapter.id,
+          part.id,
+          hasStandardVoice
+        ),
         playTime: playingTargetArray[1].length * 300,
       },
       voiceC: {
         text: playingTargetArray[2],
-        voiceSrc: useVoiceURLMaker("c", situation.id, chapter.id, part.id),
+        voiceSrc: useVoiceURLMaker(
+          "c",
+          situation.id,
+          chapter.id,
+          part.id,
+          hasStandardVoice
+        ),
         playTime: playingTargetArray[2].length * 300,
       },
       voiceB2: {
         text: playingTargetArray[3],
-        voiceSrc: useVoiceURLMaker("b2", situation.id, chapter.id, part.id),
+        voiceSrc: useVoiceURLMaker(
+          "b2",
+          situation.id,
+          chapter.id,
+          part.id,
+          hasStandardVoice
+        ),
         playTime: playingTargetArray[3].length * 300,
       },
     });
