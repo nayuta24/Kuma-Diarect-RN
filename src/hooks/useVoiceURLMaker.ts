@@ -8,10 +8,11 @@ export const useVoiceURLMaker = ( order: "a" | "b" | "c" | "b2", situationId: nu
         situationId === 1 ? situationName = "meal"
       : situationName = "life";
 
+  const maxNonStandardChapterLength = voiceDatas[situationId].datas.nonStandardVoice.length
   if ( hasStandard )
   {
-    console.log(`http://ilab.watson.jp/Test/NakamuraYutaTest/voices/${ situationName }/${ useFormatDoubleDigits( chapterId + voiceDatas[ chapterId].datas.nonStandardVoice.length)}_${ useFormatDoubleDigits( partId )}${order}.m4a`)
-    return `http://ilab.watson.jp/Test/NakamuraYutaTest/voices/${ situationName }/${ useFormatDoubleDigits( chapterId + voiceDatas[ chapterId].datas.nonStandardVoice.length)}_${ useFormatDoubleDigits( partId )}${order}.m4a`;
+    console.log(`http://ilab.watson.jp/Test/NakamuraYutaTest/voices/${ situationName }/${ useFormatDoubleDigits( chapterId + maxNonStandardChapterLength)}_${ useFormatDoubleDigits( partId )}${order}.m4a`)
+    return `http://ilab.watson.jp/Test/NakamuraYutaTest/voices/${ situationName }/${ useFormatDoubleDigits( chapterId + maxNonStandardChapterLength)}_${ useFormatDoubleDigits( partId )}${order}.m4a`;
   }
   else
   {

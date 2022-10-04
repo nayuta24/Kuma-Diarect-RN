@@ -27,7 +27,7 @@ export const ChatBubbleButton: VFC<Props> = (props) => {
             <Paragraph>{text}</Paragraph>
           </Card.Content>
         </Card>
-      ) : (
+      ) : speaker === 2 ? (
         <Card
           style={{
             borderRadius: 20,
@@ -36,6 +36,21 @@ export const ChatBubbleButton: VFC<Props> = (props) => {
             width: 250,
             marginLeft: 10,
             marginVertical: 20,
+          }}
+        >
+          <Card.Content>
+            <Paragraph> {text}</Paragraph>
+          </Card.Content>
+        </Card>
+      ) : (
+        <Card
+          style={{
+            borderRadius: 20,
+            alignSelf: "flex-start",
+            width: 250,
+            marginLeft: 10,
+            marginBottom: 20,
+            backgroundColor: "lavender",
           }}
         >
           <Card.Content>

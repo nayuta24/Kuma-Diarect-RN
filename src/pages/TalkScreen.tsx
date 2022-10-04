@@ -73,6 +73,7 @@ const TalkScreen = () => {
   const [flgPlayA, setFlgPlayA] = React.useState<boolean>(false);
   const [flgPlayB, setFlgPlayB] = React.useState<boolean>(false);
   const [flgPlayC, setFlgPlayC] = React.useState<boolean>(false);
+  const [flgPlayB2, setFlgPlayB2] = React.useState<boolean>(false);
   const [flgPlayFinished, setFlgPlayFinished] = React.useState<boolean>(false);
 
   const [isPlayingSequence, setIsPlayingSequence] =
@@ -88,6 +89,8 @@ const TalkScreen = () => {
     setFlgPlayA(false);
     setFlgPlayB(false);
     setFlgPlayC(false);
+    setFlgPlayB2(false);
+
     setFlgPlayFinished(false);
 
     setIsPlayingSequence(true);
@@ -95,18 +98,36 @@ const TalkScreen = () => {
     setIsDisabledReplayButton(true);
     const TimeFirstStart = 1200;
 
-    setTimeout(() => {
-      setFlgPlayA(true);
-    }, TimeFirstStart);
-    setTimeout(() => {
-      setFlgPlayB(true);
-    }, TimeFirstStart + voicesAndTexts.voiceA.playTime);
-    setTimeout(() => {
-      setFlgPlayC(true);
-    }, TimeFirstStart + voicesAndTexts.voiceA.playTime + voicesAndTexts.voiceB.playTime);
-    setTimeout(() => {
-      setFlgPlayFinished(true);
-    }, TimeFirstStart + voicesAndTexts.voiceA.playTime + voicesAndTexts.voiceB.playTime + voicesAndTexts.voiceC.playTime);
+    if (hasStandardVoice) {
+      setTimeout(() => {
+        setFlgPlayA(true);
+      }, TimeFirstStart);
+      setTimeout(() => {
+        setFlgPlayB(true);
+      }, TimeFirstStart + voicesAndTexts.voiceA.playTime);
+      setTimeout(() => {
+        setFlgPlayB2(true);
+      }, TimeFirstStart + voicesAndTexts.voiceA.playTime + voicesAndTexts.voiceB.playTime);
+      setTimeout(() => {
+        setFlgPlayC(true);
+      }, TimeFirstStart + voicesAndTexts.voiceA.playTime + voicesAndTexts.voiceB.playTime + voicesAndTexts.voiceB2.playTime);
+      setTimeout(() => {
+        setFlgPlayFinished(true);
+      }, TimeFirstStart + voicesAndTexts.voiceA.playTime + voicesAndTexts.voiceB.playTime + voicesAndTexts.voiceB2.playTime + voicesAndTexts.voiceC.playTime);
+    } else {
+      setTimeout(() => {
+        setFlgPlayA(true);
+      }, TimeFirstStart);
+      setTimeout(() => {
+        setFlgPlayB(true);
+      }, TimeFirstStart + voicesAndTexts.voiceA.playTime);
+      setTimeout(() => {
+        setFlgPlayC(true);
+      }, TimeFirstStart + voicesAndTexts.voiceA.playTime + voicesAndTexts.voiceB.playTime);
+      setTimeout(() => {
+        setFlgPlayFinished(true);
+      }, TimeFirstStart + voicesAndTexts.voiceA.playTime + voicesAndTexts.voiceB.playTime + voicesAndTexts.voiceC.playTime);
+    }
   };
 
   // それぞれのフラグがtrueになった時点でそれぞれの音声を再生
@@ -120,6 +141,11 @@ const TalkScreen = () => {
       isPlayingSequence &&
       usePlaySound(voicesAndTexts.voiceB.voiceSrc);
   }, [flgPlayB]);
+  React.useEffect(() => {
+    flgPlayB2 &&
+      isPlayingSequence &&
+      usePlaySound(voicesAndTexts.voiceB2.voiceSrc);
+  }, [flgPlayB2]);
   React.useEffect(() => {
     flgPlayC &&
       isPlayingSequence &&
@@ -160,7 +186,7 @@ const TalkScreen = () => {
           part.id,
           hasStandardVoice
         ),
-        playTime: playingTargetArray[0].length * 300,
+        playTime: playingTargetArray[0].length * 400,
       },
       voiceB: {
         text: playingTargetArray[1],
@@ -171,7 +197,7 @@ const TalkScreen = () => {
           part.id,
           hasStandardVoice
         ),
-        playTime: playingTargetArray[1].length * 300,
+        playTime: playingTargetArray[1].length * 400,
       },
       voiceC: {
         text: playingTargetArray[2],
@@ -182,7 +208,7 @@ const TalkScreen = () => {
           part.id,
           hasStandardVoice
         ),
-        playTime: playingTargetArray[2].length * 300,
+        playTime: playingTargetArray[2].length * 400,
       },
       voiceB2: {
         text: playingTargetArray[3],
@@ -193,7 +219,7 @@ const TalkScreen = () => {
           part.id,
           hasStandardVoice
         ),
-        playTime: playingTargetArray[3].length * 300,
+        playTime: playingTargetArray[3].length * 400,
       },
     });
   }, [playingTargetArray]);
@@ -220,6 +246,9 @@ const TalkScreen = () => {
         )}
         {flgPlayB && (
           <ChatBubbleButton speaker={2} text={voicesAndTexts.voiceB.text} />
+        )}
+        {flgPlayB2 && (
+          <ChatBubbleButton speaker={3} text={voicesAndTexts.voiceB2.text} />
         )}
         {flgPlayC && (
           <ChatBubbleButton speaker={1} text={voicesAndTexts.voiceC.text} />
@@ -296,6 +325,24 @@ const TalkScreen = () => {
           </View>
         </View>
       </Surface>
+      {!flgPlayFinished && (
+        <Surface
+          style={{
+            position: "absolute",
+            left: 0,
+            right: 0,
+            bottom: 0,
+            height: 250,
+            borderTopRightRadius: 20,
+            borderTopLeftRadius: 20,
+            alignItems: "center",
+            backgroundColor: "lightgray",
+            opacity: 0.2,
+          }}
+        >
+          <></>
+        </Surface>
+      )}
     </>
   );
 };
