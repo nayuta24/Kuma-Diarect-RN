@@ -1,15 +1,15 @@
 import { VFC } from "react";
-import {} from "react-native";
-import { Button, Card, Paragraph, Text } from "react-native-paper";
+import { Card, Paragraph } from "react-native-paper";
+import { usePlaySound } from "../../hooks/usePlaySound";
 
 type Props = {
   speaker: 1 | 2 | 3;
   text: string;
-  onPress?: () => void;
+  voiceSrc: string;
 };
 
 export const ChatBubbleButton: VFC<Props> = (props) => {
-  const { speaker, text, onPress } = props;
+  const { speaker, text, voiceSrc } = props;
 
   return (
     <>
@@ -23,7 +23,7 @@ export const ChatBubbleButton: VFC<Props> = (props) => {
             marginRight: 10,
             marginVertical: 20,
           }}
-          onPress={() => onPress}
+          onPress={() => usePlaySound(voiceSrc)}
         >
           <Card.Content>
             <Paragraph>{text}</Paragraph>
@@ -39,7 +39,7 @@ export const ChatBubbleButton: VFC<Props> = (props) => {
             marginLeft: 10,
             marginVertical: 20,
           }}
-          onPress={() => onPress}
+          onPress={() => usePlaySound(voiceSrc)}
         >
           <Card.Content>
             <Paragraph> {text}</Paragraph>
@@ -55,7 +55,7 @@ export const ChatBubbleButton: VFC<Props> = (props) => {
             marginBottom: 20,
             backgroundColor: "lavender",
           }}
-          onPress={() => onPress}
+          onPress={() => usePlaySound(voiceSrc)}
         >
           <Card.Content>
             <Paragraph> {text}</Paragraph>

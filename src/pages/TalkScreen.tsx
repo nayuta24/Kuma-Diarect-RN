@@ -270,23 +270,6 @@ const TalkScreen = () => {
     }
   };
 
-  // 吹き出しボタンを押すと音声が流れる
-  const onChatBubbleButtonPress = (speaker: "A" | "B" | "C" | "B2") => {
-    // if (!isContinueModeOn || !flgPlayFinished) {
-    if (speaker === "A") {
-      usePlaySound(voicesAndTexts.voiceA.voiceSrc);
-    } else if (speaker === "B") {
-      usePlaySound(voicesAndTexts.voiceB.voiceSrc);
-    } else if (speaker === "C") {
-      usePlaySound(voicesAndTexts.voiceC.voiceSrc);
-    } else {
-      usePlaySound(voicesAndTexts.voiceB2.voiceSrc);
-    }
-    console.log("押されたよ");
-    console.log(voicesAndTexts.voiceA.voiceSrc);
-    // }
-  };
-
   return (
     <>
       <Header pageTitle={chapter.label} onPress={stopSequence} />
@@ -295,28 +278,28 @@ const TalkScreen = () => {
           <ChatBubbleButton
             speaker={1}
             text={voicesAndTexts.voiceA.text}
-            onPress={() => onChatBubbleButtonPress("A")}
+            voiceSrc={voicesAndTexts.voiceA.voiceSrc}
           />
         )}
         {flgPlayB && (
           <ChatBubbleButton
             speaker={2}
             text={voicesAndTexts.voiceB.text}
-            onPress={() => onChatBubbleButtonPress("B")}
+            voiceSrc={voicesAndTexts.voiceB.voiceSrc}
           />
         )}
         {flgPlayB2 && (
           <ChatBubbleButton
             speaker={3}
             text={voicesAndTexts.voiceB2.text}
-            onPress={() => onChatBubbleButtonPress("B2")}
+            voiceSrc={voicesAndTexts.voiceB2.voiceSrc}
           />
         )}
         {flgPlayC && (
           <ChatBubbleButton
             speaker={1}
             text={voicesAndTexts.voiceC.text}
-            onPress={() => onChatBubbleButtonPress("C")}
+            voiceSrc={voicesAndTexts.voiceC.voiceSrc}
           />
         )}
       </View>
