@@ -11,12 +11,10 @@ export const useVoiceURLMaker = ( order: "a" | "b" | "c" | "b2", situationId: nu
   const maxNonStandardChapterLength = voiceDatas[situationId].datas.nonStandardVoice.length
   if ( hasStandard )
   {
-    console.log(`http://ilab.watson.jp/Test/NakamuraYutaTest/voices/${ situationName }/${ useFormatDoubleDigits( chapterId + maxNonStandardChapterLength)}_${ useFormatDoubleDigits( partId )}${order}.m4a`)
     return `http://ilab.watson.jp/Test/NakamuraYutaTest/voices/${ situationName }/${ useFormatDoubleDigits( chapterId + maxNonStandardChapterLength)}_${ useFormatDoubleDigits( partId )}${order}.m4a`;
   }
   else
   {
-    console.log(`http://ilab.watson.jp/Test/NakamuraYutaTest/voices/${situationName}/${useFormatDoubleDigits( chapterId ) }_${useFormatDoubleDigits( partId)}${order}.m4a`)
     return `http://ilab.watson.jp/Test/NakamuraYutaTest/voices/${situationName}/${useFormatDoubleDigits( chapterId)  }_${useFormatDoubleDigits(partId)}${order}.m4a`;
   }
 };

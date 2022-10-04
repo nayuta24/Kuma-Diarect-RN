@@ -70,6 +70,8 @@ const TalkScreen = () => {
       },
     });
 
+  const [isLeadyForPlay, setIsLeadyForPlay] = React.useState<boolean>(false);
+
   const [flgPlayA, setFlgPlayA] = React.useState<boolean>(false);
   const [flgPlayB, setFlgPlayB] = React.useState<boolean>(false);
   const [flgPlayC, setFlgPlayC] = React.useState<boolean>(false);
@@ -86,6 +88,7 @@ const TalkScreen = () => {
 
   // 音声とテキストを順番に再生するためのフラグを順番にtrueにしていく
   const sequenceAudioAndChat = () => {
+    setIsLeadyForPlay(false);
     setFlgPlayA(false);
     setFlgPlayB(false);
     setFlgPlayC(false);
@@ -222,11 +225,15 @@ const TalkScreen = () => {
         playTime: playingTargetArray[3].length * 400,
       },
     });
+    setIsLeadyForPlay(true);
   }, [playingTargetArray]);
 
-  // 音声URL etcがセットされたら音声を再生する
+  // 音声URL etcがセットされ、再生準備が完了したら音声を再生する
   React.useEffect(() => {
-    sequenceAudioAndChat();
+    if (isLeadyForPlay) {
+      sequenceAudioAndChat();
+      console.log("わ");
+    }
   }, [voicesAndTexts]);
 
   // 次の音声再生
@@ -284,7 +291,6 @@ const TalkScreen = () => {
               iconColor={"purple"}
               size={60}
               style={{ marginHorizontal: 25 }}
-              // disabled={chapter.id === 0 && part.id === 0}
               onPress={playPrev}
             />
             <View style={{ marginBottom: 20 }}>
