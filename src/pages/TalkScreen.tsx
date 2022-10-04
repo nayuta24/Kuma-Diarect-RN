@@ -14,6 +14,8 @@ import { playingTargetArrayState } from "../store/playingTargetArrayState";
 import { useUpdatePlayingTargetArray } from "../hooks/useUpdatePlayingTargetArray";
 import { useNextPlayingTarget } from "../hooks/useNextPlayingTarget";
 import { usePrevPlayingTarget } from "../hooks/usePrevPlayingTarget";
+import { TextToggle } from "../components/button/TextToggle";
+import { NextButton, PrevButton } from "../components/button/PrevAndNextButton";
 
 type voicesAndTextsType = {
   voiceA: {
@@ -70,7 +72,7 @@ const TalkScreen = () => {
       },
     });
 
-  const [isLeadyForPlay, setIsLeadyForPlay] = React.useState<boolean>(false);
+  const [isReadyForPlay, setIsReadyForPlay] = React.useState<boolean>(false);
 
   const [flgPlayA, setFlgPlayA] = React.useState<boolean>(false);
   const [flgPlayB, setFlgPlayB] = React.useState<boolean>(false);
@@ -79,26 +81,23 @@ const TalkScreen = () => {
   const [flgPlayFinished, setFlgPlayFinished] = React.useState<boolean>(false);
 
   const [isPlayingSequence, setIsPlayingSequence] =
-    React.useState<boolean>(true);
-  const [isPlayingFinished, setIsPlayingFinished] =
     React.useState<boolean>(false);
-  const [isDisabledReplayButton, setIsDisabledReplayButton] =
-    React.useState<boolean>(true);
-  const [continueMode, setContinueMode] = React.useState<boolean>(false);
+  const [isContinueModeOn, setIsContinueModeOn] = React.useState<boolean>(true);
+  const [countDown, setCountDown] = React.useState<number>(3);
+  const [flgPlayNext, setFlgPlayNext] = React.useState<boolean>(false);
 
   // 音声とテキストを順番に再生するためのフラグを順番にtrueにしていく
   const sequenceAudioAndChat = () => {
-    setIsLeadyForPlay(false);
+    setIsReadyForPlay(false);
     setFlgPlayA(false);
     setFlgPlayB(false);
     setFlgPlayC(false);
     setFlgPlayB2(false);
 
     setFlgPlayFinished(false);
-
     setIsPlayingSequence(true);
-    setIsPlayingFinished(false);
-    setIsDisabledReplayButton(true);
+    setFlgPlayNext(false);
+
     const TimeFirstStart = 1200;
 
     if (hasStandardVoice) {
@@ -156,8 +155,26 @@ const TalkScreen = () => {
   }, [flgPlayC]);
   // 再生終了後の処理発動用
   React.useEffect(() => {
-    flgPlayFinished && isPlayingSequence && setIsDisabledReplayButton(false);
-  }, [flgPlayFinished]);
+    // 連続再生モードの場合は、次の音声をカウントダウン後に再生
+    if (flgPlayFinished && isContinueModeOn) {
+      setCountDown(3);
+      setTimeout(() => {
+        setCountDown(2);
+      }, 1000);
+      setTimeout(() => {
+        setCountDown(1);
+      }, 2000);
+      setTimeout(() => {
+        setFlgPlayNext(true);
+      }, 3000);
+    }
+  }, [flgPlayFinished, isContinueModeOn]);
+
+  React.useEffect(() => {
+    if (isContinueModeOn && flgPlayNext) {
+      playNext();
+    }
+  }, [flgPlayNext]);
 
   // 再生ストップ
   const stopSequence = () => {
@@ -225,14 +242,13 @@ const TalkScreen = () => {
         playTime: playingTargetArray[3].length * 400,
       },
     });
-    setIsLeadyForPlay(true);
+    setIsReadyForPlay(true);
   }, [playingTargetArray]);
 
-  // 音声URL etcがセットされ、再生準備が完了したら音声を再生する
+  // 音声URLetcがセットされ、再生準備が完了したら音声を再生する
   React.useEffect(() => {
-    if (isLeadyForPlay) {
+    if (isReadyForPlay) {
       sequenceAudioAndChat();
-      console.log("わ");
     }
   }, [voicesAndTexts]);
 
@@ -244,21 +260,64 @@ const TalkScreen = () => {
     setPlayingTarget(usePrevPlayingTarget(playingTarget));
   };
 
+  // 連続再生モードの切り替え
+  const onContinueModeSwitch = () => {
+    setIsContinueModeOn(!isContinueModeOn);
+    // 再生終了状態の場合、次の音声を再生
+    if (flgPlayFinished && !isContinueModeOn) {
+      playNext();
+      setFlgPlayFinished(false);
+    }
+  };
+
+  // 吹き出しボタンを押すと音声が流れる
+  const onChatBubbleButtonPress = (speaker: "A" | "B" | "C" | "B2") => {
+    // if (!isContinueModeOn || !flgPlayFinished) {
+    if (speaker === "A") {
+      usePlaySound(voicesAndTexts.voiceA.voiceSrc);
+    } else if (speaker === "B") {
+      usePlaySound(voicesAndTexts.voiceB.voiceSrc);
+    } else if (speaker === "C") {
+      usePlaySound(voicesAndTexts.voiceC.voiceSrc);
+    } else {
+      usePlaySound(voicesAndTexts.voiceB2.voiceSrc);
+    }
+    console.log("押されたよ");
+    console.log(voicesAndTexts.voiceA.voiceSrc);
+    // }
+  };
+
   return (
     <>
       <Header pageTitle={chapter.label} onPress={stopSequence} />
-      <View>
+      <View style={{ height: "100%" }}>
         {flgPlayA && (
-          <ChatBubbleButton speaker={1} text={voicesAndTexts.voiceA.text} />
+          <ChatBubbleButton
+            speaker={1}
+            text={voicesAndTexts.voiceA.text}
+            onPress={() => onChatBubbleButtonPress("A")}
+          />
         )}
         {flgPlayB && (
-          <ChatBubbleButton speaker={2} text={voicesAndTexts.voiceB.text} />
+          <ChatBubbleButton
+            speaker={2}
+            text={voicesAndTexts.voiceB.text}
+            onPress={() => onChatBubbleButtonPress("B")}
+          />
         )}
         {flgPlayB2 && (
-          <ChatBubbleButton speaker={3} text={voicesAndTexts.voiceB2.text} />
+          <ChatBubbleButton
+            speaker={3}
+            text={voicesAndTexts.voiceB2.text}
+            onPress={() => onChatBubbleButtonPress("B2")}
+          />
         )}
         {flgPlayC && (
-          <ChatBubbleButton speaker={1} text={voicesAndTexts.voiceC.text} />
+          <ChatBubbleButton
+            speaker={1}
+            text={voicesAndTexts.voiceC.text}
+            onPress={() => onChatBubbleButtonPress("C")}
+          />
         )}
       </View>
       <Surface
@@ -273,6 +332,32 @@ const TalkScreen = () => {
           alignItems: "center",
         }}
       >
+        <View
+          style={{
+            position: "absolute",
+            width: "100%",
+            height: "100%",
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "space-between",
+            alignItems: "center",
+          }}
+        >
+          <PrevButton
+            disabled={!flgPlayFinished || isContinueModeOn}
+            onPress={() => {
+              playPrev();
+              setFlgPlayNext(false);
+            }}
+          />
+          <NextButton
+            disabled={!flgPlayFinished || isContinueModeOn}
+            onPress={() => {
+              playNext();
+              setFlgPlayNext(false);
+            }}
+          />
+        </View>
         <View>
           <Text
             style={{
@@ -285,70 +370,34 @@ const TalkScreen = () => {
           >
             {"チャプター" + useFormatDoubleDigits(part.id)}
           </Text>
-          <View style={{ flexDirection: "row", alignItems: "center" }}>
-            <IconButton
-              icon={"arrow-left-bold-circle-outline"}
-              iconColor={"purple"}
-              size={60}
-              style={{ marginHorizontal: 25 }}
-              onPress={playPrev}
-            />
-            <View style={{ marginBottom: 20 }}>
-              <Button
-                mode="contained"
-                onPress={sequenceAudioAndChat}
-                style={{ marginVertical: 10 }}
-                disabled={isDisabledReplayButton}
-              >
-                もう一度再生
-              </Button>
-              <View
-                style={{
-                  flexDirection: "row",
-                  alignItems: "center",
-                  marginTop: 10,
-                }}
-              >
-                <Text
-                  style={{
-                    textAlign: "center",
-                    fontSize: 15,
-                    marginRight: 10,
-                  }}
-                >
-                  自動再生モード
-                </Text>
-                <Switch value={false}></Switch>
-              </View>
-            </View>
-            <IconButton
-              icon={"arrow-right-bold-circle-outline"}
-              iconColor={"purple"}
-              size={60}
-              style={{ marginHorizontal: 25 }}
-              onPress={playNext}
-            />
-          </View>
+          {!isContinueModeOn && (
+            <Button
+              mode="contained"
+              onPress={sequenceAudioAndChat}
+              style={{ marginVertical: 10 }}
+              disabled={!flgPlayFinished}
+            >
+              もう一度再生
+            </Button>
+          )}
+          <TextToggle
+            value={isContinueModeOn}
+            onValueChange={onContinueModeSwitch}
+            text="自動再生モード"
+          />
         </View>
+        {isContinueModeOn && flgPlayFinished && (
+          <Text
+            style={{
+              marginVertical: "10%",
+              textAlign: "center",
+              fontSize: 30,
+            }}
+          >
+            {countDown}
+          </Text>
+        )}
       </Surface>
-      {!flgPlayFinished && (
-        <Surface
-          style={{
-            position: "absolute",
-            left: 0,
-            right: 0,
-            bottom: 0,
-            height: 250,
-            borderTopRightRadius: 20,
-            borderTopLeftRadius: 20,
-            alignItems: "center",
-            backgroundColor: "lightgray",
-            opacity: 0.2,
-          }}
-        >
-          <></>
-        </Surface>
-      )}
     </>
   );
 };

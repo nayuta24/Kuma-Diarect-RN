@@ -1,14 +1,15 @@
 import { VFC } from "react";
 import {} from "react-native";
-import { Card, Paragraph } from "react-native-paper";
+import { Button, Card, Paragraph, Text } from "react-native-paper";
 
 type Props = {
   speaker: 1 | 2 | 3;
   text: string;
+  onPress?: () => void;
 };
 
 export const ChatBubbleButton: VFC<Props> = (props) => {
-  const { speaker, text } = props;
+  const { speaker, text, onPress } = props;
 
   return (
     <>
@@ -22,6 +23,7 @@ export const ChatBubbleButton: VFC<Props> = (props) => {
             marginRight: 10,
             marginVertical: 20,
           }}
+          onPress={() => onPress}
         >
           <Card.Content>
             <Paragraph>{text}</Paragraph>
@@ -37,6 +39,7 @@ export const ChatBubbleButton: VFC<Props> = (props) => {
             marginLeft: 10,
             marginVertical: 20,
           }}
+          onPress={() => onPress}
         >
           <Card.Content>
             <Paragraph> {text}</Paragraph>
@@ -52,6 +55,7 @@ export const ChatBubbleButton: VFC<Props> = (props) => {
             marginBottom: 20,
             backgroundColor: "lavender",
           }}
+          onPress={() => onPress}
         >
           <Card.Content>
             <Paragraph> {text}</Paragraph>
