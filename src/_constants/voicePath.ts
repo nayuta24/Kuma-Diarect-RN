@@ -1,22 +1,23 @@
 import { AVPlaybackSource } from "expo-av"
 
-type soundPathType = {
-    nurse: {
+type voicePathType = [
+    {
         nonStandardVoice: Array<Array<Array<AVPlaybackSource>>>,
         hasStandardVoice: Array<Array<Array<AVPlaybackSource>>>,
     },
-    meal: {
+    {
         nonStandardVoice: Array<Array<Array<AVPlaybackSource>>>,
         hasStandardVoice: Array<Array<Array<AVPlaybackSource>>>,
     },
-    life: {
+    {
         nonStandardVoice: Array<Array<Array<AVPlaybackSource>>>,
         hasStandardVoice: Array<Array<Array<AVPlaybackSource>>>,
     },
-}
+]
 
-export const soundPath:soundPathType = {
-    nurse: {
+
+export const voicePath: voicePathType = [
+    {
         nonStandardVoice: [
             [
                 [ require( "../assets/sounds/nurse/01_01a.m4a" ), require( "../assets/sounds/nurse/01_01b.m4a" ), require( "../assets/sounds/nurse/01_01c.m4a" )],
@@ -173,7 +174,7 @@ export const soundPath:soundPathType = {
             ],
         ]
     },
-    meal: {
+    {
         nonStandardVoice: [
             [
                 [ require( "../assets/sounds/meal/01_01a.m4a" ), require( "../assets/sounds/meal/01_01b.m4a" ), require( "../assets/sounds/meal/01_01c.m4a" )],
@@ -318,7 +319,7 @@ export const soundPath:soundPathType = {
             ],
         ]
     },
-    life: {
+    {
         nonStandardVoice: [
             [
                 [ require( "../assets/sounds/life/01_01a.m4a" ), require( "../assets/sounds/life/01_01b.m4a" ), require( "../assets/sounds/life/01_01c.m4a" )],
@@ -525,4 +526,4 @@ export const soundPath:soundPathType = {
             ],
         ]
     }
-}
+]

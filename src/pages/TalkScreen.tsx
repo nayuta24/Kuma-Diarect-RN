@@ -8,7 +8,7 @@ import { playingTargetState } from "../store/playingTargetState";
 import { ChatBubbleButton } from "../components/button/ChatBubbleButton";
 import { useFormatDoubleDigits } from "../hooks/useFormatDoubleDigits";
 import { useVoiceURLMaker } from "../hooks/useVoiceURLMaker";
-import { useUriPlaySound } from "../hooks/usePlaySound";
+import { useLocalPlaySound, useUriPlaySound } from "../hooks/usePlaySound";
 import { useStopSound } from "../hooks/useStopSound";
 import { playingTargetArrayState } from "../store/playingTargetArrayState";
 import { useUpdatePlayingTargetArray } from "../hooks/useUpdatePlayingTargetArray";
@@ -16,26 +16,28 @@ import { useNextPlayingTarget } from "../hooks/useNextPlayingTarget";
 import { usePrevPlayingTarget } from "../hooks/usePrevPlayingTarget";
 import { TextToggle } from "../components/button/TextToggle";
 import { NextButton, PrevButton } from "../components/button/PrevAndNextButton";
+import { AVPlaybackSource } from "expo-av";
+import { useVoicePathMaker } from "../hooks/useVoicePathMaker";
 
 type voicesAndTextsType = {
   voiceA: {
     text: string;
-    voiceSrc: string;
+    voiceSrc: AVPlaybackSource;
     playTime: number;
   };
   voiceB: {
     text: string;
-    voiceSrc: string;
+    voiceSrc: AVPlaybackSource;
     playTime: number;
   };
   voiceC: {
     text: string;
-    voiceSrc: string;
+    voiceSrc: AVPlaybackSource;
     playTime: number;
   };
   voiceB2: {
     text: string;
-    voiceSrc: string;
+    voiceSrc: AVPlaybackSource;
     playTime: number;
   };
 };
@@ -52,22 +54,22 @@ const TalkScreen = () => {
     React.useState<voicesAndTextsType>({
       voiceA: {
         text: "",
-        voiceSrc: "",
+        voiceSrc: require("../assets/sounds/nurse/01_01a.m4a"),
         playTime: 3000,
       },
       voiceB: {
         text: "",
-        voiceSrc: "",
+        voiceSrc: require("../assets/sounds/nurse/01_01b.m4a"),
         playTime: 3000,
       },
       voiceC: {
         text: "",
-        voiceSrc: "",
+        voiceSrc: require("../assets/sounds/nurse/01_01c.m4a"),
         playTime: 3000,
       },
       voiceB2: {
         text: "",
-        voiceSrc: "",
+        voiceSrc: require("../assets/sounds/nurse/14_11b2.m4a"),
         playTime: 3000,
       },
     });
@@ -136,22 +138,22 @@ const TalkScreen = () => {
   React.useEffect(() => {
     flgPlayA &&
       isPlayingSequence &&
-      useUriPlaySound(voicesAndTexts.voiceA.voiceSrc);
+      useLocalPlaySound(voicesAndTexts.voiceA.voiceSrc);
   }, [flgPlayA]);
   React.useEffect(() => {
     flgPlayB &&
       isPlayingSequence &&
-      useUriPlaySound(voicesAndTexts.voiceB.voiceSrc);
+      useLocalPlaySound(voicesAndTexts.voiceB.voiceSrc);
   }, [flgPlayB]);
   React.useEffect(() => {
     flgPlayB2 &&
       isPlayingSequence &&
-      useUriPlaySound(voicesAndTexts.voiceB2.voiceSrc);
+      useLocalPlaySound(voicesAndTexts.voiceB2.voiceSrc);
   }, [flgPlayB2]);
   React.useEffect(() => {
     flgPlayC &&
       isPlayingSequence &&
-      useUriPlaySound(voicesAndTexts.voiceC.voiceSrc);
+      useLocalPlaySound(voicesAndTexts.voiceC.voiceSrc);
   }, [flgPlayC]);
   // 再生終了後の処理発動用
   React.useEffect(() => {
@@ -199,7 +201,7 @@ const TalkScreen = () => {
     setVoicesAndTexts({
       voiceA: {
         text: playingTargetArray[0],
-        voiceSrc: useVoiceURLMaker(
+        voiceSrc: useVoicePathMaker(
           "a",
           situation.id,
           chapter.id,
@@ -210,7 +212,7 @@ const TalkScreen = () => {
       },
       voiceB: {
         text: playingTargetArray[1],
-        voiceSrc: useVoiceURLMaker(
+        voiceSrc: useVoicePathMaker(
           "b",
           situation.id,
           chapter.id,
@@ -221,7 +223,7 @@ const TalkScreen = () => {
       },
       voiceC: {
         text: playingTargetArray[2],
-        voiceSrc: useVoiceURLMaker(
+        voiceSrc: useVoicePathMaker(
           "c",
           situation.id,
           chapter.id,
@@ -232,7 +234,7 @@ const TalkScreen = () => {
       },
       voiceB2: {
         text: playingTargetArray[3],
-        voiceSrc: useVoiceURLMaker(
+        voiceSrc: useVoicePathMaker(
           "b2",
           situation.id,
           chapter.id,

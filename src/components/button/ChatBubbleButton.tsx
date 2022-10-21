@@ -1,11 +1,12 @@
+import { AVPlaybackSource } from "expo-av";
 import { VFC } from "react";
 import { Card, Paragraph } from "react-native-paper";
-import { usePlaySound } from "../../hooks/usePlaySound";
+import { useLocalPlaySound } from "../../hooks/usePlaySound";
 
 type Props = {
   speaker: 1 | 2 | 3;
   text: string;
-  voiceSrc: string;
+  voiceSrc: AVPlaybackSource;
 };
 
 export const ChatBubbleButton: VFC<Props> = (props) => {
@@ -23,7 +24,7 @@ export const ChatBubbleButton: VFC<Props> = (props) => {
             marginRight: 10,
             marginVertical: 20,
           }}
-          onPress={() => usePlaySound(voiceSrc)}
+          onPress={() => useLocalPlaySound(voiceSrc)}
         >
           <Card.Content>
             <Paragraph>{text}</Paragraph>
@@ -39,7 +40,7 @@ export const ChatBubbleButton: VFC<Props> = (props) => {
             marginLeft: 10,
             marginVertical: 20,
           }}
-          onPress={() => usePlaySound(voiceSrc)}
+          onPress={() => useLocalPlaySound(voiceSrc)}
         >
           <Card.Content>
             <Paragraph> {text}</Paragraph>
@@ -55,7 +56,7 @@ export const ChatBubbleButton: VFC<Props> = (props) => {
             marginBottom: 20,
             backgroundColor: "lavender",
           }}
-          onPress={() => usePlaySound(voiceSrc)}
+          onPress={() => useLocalPlaySound(voiceSrc)}
         >
           <Card.Content>
             <Paragraph> {text}</Paragraph>
