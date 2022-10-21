@@ -6,6 +6,8 @@ import { RootStackParamList } from "../App";
 
 import { TextLarge } from "../components/text/TextLarge";
 import { CommonButton } from "../components/button/CommonButton";
+import { useLocalPlaySound, useUriPlaySound } from "../hooks/usePlaySound";
+import { soundPath } from "../_constants/voicePath";
 
 type homeScreenProp = StackNavigationProp<RootStackParamList, "Home">;
 const HomeScreen = () => {
@@ -22,6 +24,12 @@ const HomeScreen = () => {
       <CommonButton
         text="スタート！"
         onPress={() => navigation.navigate("場面選択")}
+      />
+      <CommonButton
+        text="あ"
+        onPress={() =>
+          useLocalPlaySound(soundPath.life.hasStandardVoice[0][0][0])
+        }
       />
     </View>
   );

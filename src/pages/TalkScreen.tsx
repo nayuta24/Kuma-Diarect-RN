@@ -8,7 +8,7 @@ import { playingTargetState } from "../store/playingTargetState";
 import { ChatBubbleButton } from "../components/button/ChatBubbleButton";
 import { useFormatDoubleDigits } from "../hooks/useFormatDoubleDigits";
 import { useVoiceURLMaker } from "../hooks/useVoiceURLMaker";
-import { usePlaySound } from "../hooks/usePlaySound";
+import { useUriPlaySound } from "../hooks/usePlaySound";
 import { useStopSound } from "../hooks/useStopSound";
 import { playingTargetArrayState } from "../store/playingTargetArrayState";
 import { useUpdatePlayingTargetArray } from "../hooks/useUpdatePlayingTargetArray";
@@ -136,22 +136,22 @@ const TalkScreen = () => {
   React.useEffect(() => {
     flgPlayA &&
       isPlayingSequence &&
-      usePlaySound(voicesAndTexts.voiceA.voiceSrc);
+      useUriPlaySound(voicesAndTexts.voiceA.voiceSrc);
   }, [flgPlayA]);
   React.useEffect(() => {
     flgPlayB &&
       isPlayingSequence &&
-      usePlaySound(voicesAndTexts.voiceB.voiceSrc);
+      useUriPlaySound(voicesAndTexts.voiceB.voiceSrc);
   }, [flgPlayB]);
   React.useEffect(() => {
     flgPlayB2 &&
       isPlayingSequence &&
-      usePlaySound(voicesAndTexts.voiceB2.voiceSrc);
+      useUriPlaySound(voicesAndTexts.voiceB2.voiceSrc);
   }, [flgPlayB2]);
   React.useEffect(() => {
     flgPlayC &&
       isPlayingSequence &&
-      usePlaySound(voicesAndTexts.voiceC.voiceSrc);
+      useUriPlaySound(voicesAndTexts.voiceC.voiceSrc);
   }, [flgPlayC]);
   // 再生終了後の処理発動用
   React.useEffect(() => {
