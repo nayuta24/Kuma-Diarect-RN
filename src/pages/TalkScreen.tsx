@@ -18,6 +18,7 @@ import { TextToggle } from "../components/button/TextToggle";
 import { NextButton, PrevButton } from "../components/button/PrevAndNextButton";
 import { AVPlaybackSource } from "expo-av";
 import { useVoicePathMaker } from "../hooks/useVoicePathMaker";
+import { TalkScreenControlPanel } from "../components/surface/TalkScreenControlPanel";
 
 type voicesAndTextsType = {
   voiceA: {
@@ -251,15 +252,18 @@ const TalkScreen = () => {
   React.useEffect(() => {
     if (isReadyForPlay) {
       sequenceAudioAndChat();
+      setCountDown(3);
     }
   }, [voicesAndTexts]);
 
   // 次の音声再生
   const playNext = () => {
     setPlayingTarget(useNextPlayingTarget(playingTarget));
+    setFlgPlayNext(false);
   };
   const playPrev = () => {
     setPlayingTarget(usePrevPlayingTarget(playingTarget));
+    setFlgPlayNext(false);
   };
 
   // 連続再生モードの切り替え
@@ -290,7 +294,7 @@ const TalkScreen = () => {
             voiceSrc={voicesAndTexts.voiceB.voiceSrc}
           />
         )}
-        {flgPlayB2 && (
+        {flgPlayB && (
           <ChatBubbleButton
             speaker={3}
             text={voicesAndTexts.voiceB2.text}
@@ -305,84 +309,16 @@ const TalkScreen = () => {
           />
         )}
       </View>
-      <Surface
-        style={{
-          position: "absolute",
-          left: 0,
-          right: 0,
-          bottom: 0,
-          height: 250,
-          borderTopRightRadius: 20,
-          borderTopLeftRadius: 20,
-          alignItems: "center",
-        }}
-      >
-        <View
-          style={{
-            position: "absolute",
-            width: "100%",
-            height: "100%",
-            display: "flex",
-            flexDirection: "row",
-            justifyContent: "space-between",
-            alignItems: "center",
-          }}
-        >
-          <PrevButton
-            disabled={!flgPlayFinished || isContinueModeOn}
-            onPress={() => {
-              playPrev();
-              setFlgPlayNext(false);
-            }}
-          />
-          <NextButton
-            disabled={!flgPlayFinished || isContinueModeOn}
-            onPress={() => {
-              playNext();
-              setFlgPlayNext(false);
-            }}
-          />
-        </View>
-        <View>
-          <Text
-            style={{
-              textAlign: "center",
-              fontSize: 33,
-              fontWeight: "bold",
-              color: "purple",
-              marginVertical: 20,
-            }}
-          >
-            {"チャプター" + useFormatDoubleDigits(part.id)}
-          </Text>
-          {!isContinueModeOn && (
-            <Button
-              mode="contained"
-              onPress={sequenceAudioAndChat}
-              style={{ marginVertical: 10 }}
-              disabled={!flgPlayFinished}
-            >
-              もう一度再生
-            </Button>
-          )}
-          <TextToggle
-            value={isContinueModeOn}
-            onValueChange={onContinueModeSwitch}
-            text="自動再生モード"
-          />
-        </View>
-        {isContinueModeOn && flgPlayFinished && (
-          <Text
-            style={{
-              marginVertical: "10%",
-              textAlign: "center",
-              fontSize: 30,
-            }}
-          >
-            {countDown}
-          </Text>
-        )}
-      </Surface>
+      <TalkScreenControlPanel
+        partId={part.id}
+        flgPlayFinished={flgPlayFinished}
+        isContinueModeOn={isContinueModeOn}
+        playNext={playNext}
+        playPrev={playPrev}
+        onContinueModeSwitch={onContinueModeSwitch}
+        countdown={countDown}
+        sequenceAudioAndChat={sequenceAudioAndChat}
+      />
     </>
   );
 };
