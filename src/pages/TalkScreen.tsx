@@ -1,21 +1,16 @@
 import * as React from "react";
 import { View } from "react-native";
 import { useRecoilState } from "recoil";
-import { Button, IconButton, Surface, Text, Switch } from "react-native-paper";
 
 import { Header } from "../components/Header";
 import { playingTargetState } from "../store/playingTargetState";
 import { ChatBubbleButton } from "../components/button/ChatBubbleButton";
-import { useFormatDoubleDigits } from "../hooks/useFormatDoubleDigits";
-import { useVoiceURLMaker } from "../hooks/useVoiceURLMaker";
-import { useLocalPlaySound, useUriPlaySound } from "../hooks/usePlaySound";
+import { useLocalPlaySound } from "../hooks/usePlaySound";
 import { useStopSound } from "../hooks/useStopSound";
 import { playingTargetArrayState } from "../store/playingTargetArrayState";
 import { useUpdatePlayingTargetArray } from "../hooks/useUpdatePlayingTargetArray";
 import { useNextPlayingTarget } from "../hooks/useNextPlayingTarget";
 import { usePrevPlayingTarget } from "../hooks/usePrevPlayingTarget";
-import { TextToggle } from "../components/button/TextToggle";
-import { NextButton, PrevButton } from "../components/button/PrevAndNextButton";
 import { AVPlaybackSource } from "expo-av";
 import { useVoicePathMaker } from "../hooks/useVoicePathMaker";
 import { TalkScreenControlPanel } from "../components/surface/TalkScreenControlPanel";
@@ -285,6 +280,7 @@ const TalkScreen = () => {
             speaker={1}
             text={voicesAndTexts.voiceA.text}
             voiceSrc={voicesAndTexts.voiceA.voiceSrc}
+            flgPlayFinished={flgPlayFinished}
           />
         )}
         {flgPlayB && (
@@ -292,6 +288,7 @@ const TalkScreen = () => {
             speaker={2}
             text={voicesAndTexts.voiceB.text}
             voiceSrc={voicesAndTexts.voiceB.voiceSrc}
+            flgPlayFinished={flgPlayFinished}
           />
         )}
         {flgPlayB && (
@@ -299,6 +296,7 @@ const TalkScreen = () => {
             speaker={3}
             text={voicesAndTexts.voiceB2.text}
             voiceSrc={voicesAndTexts.voiceB2.voiceSrc}
+            flgPlayFinished={flgPlayFinished}
           />
         )}
         {flgPlayC && (
@@ -306,6 +304,7 @@ const TalkScreen = () => {
             speaker={1}
             text={voicesAndTexts.voiceC.text}
             voiceSrc={voicesAndTexts.voiceC.voiceSrc}
+            flgPlayFinished={flgPlayFinished}
           />
         )}
       </View>

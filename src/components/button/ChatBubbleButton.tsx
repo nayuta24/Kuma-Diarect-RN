@@ -7,10 +7,11 @@ type Props = {
   speaker: 1 | 2 | 3;
   text: string;
   voiceSrc: AVPlaybackSource;
+  flgPlayFinished: boolean;
 };
 
 export const ChatBubbleButton: VFC<Props> = (props) => {
-  const { speaker, text, voiceSrc } = props;
+  const { speaker, text, voiceSrc, flgPlayFinished } = props;
 
   return (
     <>
@@ -22,9 +23,9 @@ export const ChatBubbleButton: VFC<Props> = (props) => {
             alignSelf: "flex-end",
             width: 250,
             marginRight: 10,
-            marginVertical: 20,
+            marginTop: 20,
           }}
-          onPress={() => useLocalPlaySound(voiceSrc)}
+          onPress={() => flgPlayFinished && useLocalPlaySound(voiceSrc)}
         >
           <Card.Content>
             <Paragraph>{text}</Paragraph>
@@ -38,9 +39,9 @@ export const ChatBubbleButton: VFC<Props> = (props) => {
             alignSelf: "flex-start",
             width: 250,
             marginLeft: 10,
-            marginVertical: 20,
+            marginTop: 40,
           }}
-          onPress={() => useLocalPlaySound(voiceSrc)}
+          onPress={() => flgPlayFinished && useLocalPlaySound(voiceSrc)}
         >
           <Card.Content>
             <Paragraph> {text}</Paragraph>
@@ -53,10 +54,11 @@ export const ChatBubbleButton: VFC<Props> = (props) => {
             alignSelf: "flex-start",
             width: 250,
             marginLeft: 10,
+            marginTop: 10,
             marginBottom: 20,
             backgroundColor: "lavender",
           }}
-          onPress={() => useLocalPlaySound(voiceSrc)}
+          onPress={() => flgPlayFinished && useLocalPlaySound(voiceSrc)}
         >
           <Card.Content>
             <Paragraph> {text}</Paragraph>

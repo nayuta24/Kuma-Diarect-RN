@@ -1,4 +1,4 @@
-import { VFC } from "react";
+import React, { VFC } from "react";
 import { View } from "react-native";
 import { Button, Surface, Text } from "react-native-paper";
 import { useFormatDoubleDigits } from "../../hooks/useFormatDoubleDigits";
@@ -69,15 +69,29 @@ export const TalkScreenControlPanel: VFC<Props> = (props) => {
         />
         <View style={{ width: "45%" }}>
           {isContinueModeOn ? (
-            <Text
-              style={{
-                marginVertical: "10%",
-                textAlign: "center",
-                fontSize: 30,
-              }}
-            >
-              {countdown}
-            </Text>
+            flgPlayFinished ? (
+              <Text
+                style={{
+                  marginVertical: "10%",
+                  textAlign: "center",
+                  fontSize: 30,
+                  color: "black",
+                }}
+              >
+                {countdown}
+              </Text>
+            ) : (
+              <Text
+                style={{
+                  marginVertical: "10%",
+                  textAlign: "center",
+                  fontSize: 30,
+                  color: "lightgray",
+                }}
+              >
+                {countdown}
+              </Text>
+            )
           ) : (
             <Button
               mode="contained"
