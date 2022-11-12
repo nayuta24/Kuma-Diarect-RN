@@ -1,6 +1,11 @@
 import { AVPlaybackSource } from "expo-av";
 import { VFC } from "react";
 import { Card, Paragraph } from "react-native-paper";
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from "react-native-responsive-screen";
+
 import { useLocalPlaySound } from "../../hooks/usePlaySound";
 
 type Props = {
@@ -18,50 +23,50 @@ export const ChatBubbleButton: VFC<Props> = (props) => {
       {speaker === 1 ? (
         <Card
           style={{
-            borderRadius: 20,
+            borderRadius: hp("2%"),
             borderBottomRightRadius: 0,
             alignSelf: "flex-end",
-            width: 250,
-            marginRight: 10,
-            marginTop: 20,
+            width: wp("70%"),
+            marginRight: wp("4%"),
+            marginTop: hp("4%"),
           }}
           onPress={() => flgPlayFinished && useLocalPlaySound(voiceSrc)}
         >
           <Card.Content>
-            <Paragraph>{text}</Paragraph>
+            <Paragraph style={{ fontSize: hp("1.8%") }}>{text}</Paragraph>
           </Card.Content>
         </Card>
       ) : speaker === 2 ? (
         <Card
           style={{
-            borderRadius: 20,
+            borderRadius: hp("2%"),
             borderBottomLeftRadius: 0,
             alignSelf: "flex-start",
-            width: 250,
-            marginLeft: 10,
-            marginTop: 40,
+            width: wp("70%"),
+            marginLeft: wp("4%"),
+            marginTop: hp("4%"),
           }}
           onPress={() => flgPlayFinished && useLocalPlaySound(voiceSrc)}
         >
           <Card.Content>
-            <Paragraph> {text}</Paragraph>
+            <Paragraph style={{ fontSize: hp("1.8%") }}>{text}</Paragraph>
           </Card.Content>
         </Card>
       ) : (
         <Card
           style={{
-            borderRadius: 20,
+            borderRadius: hp("2%"),
             alignSelf: "flex-start",
-            width: 250,
-            marginLeft: 10,
-            marginTop: 10,
-            marginBottom: 20,
+            width: wp("70%"),
+            marginLeft: wp("4%"),
+            marginTop: hp("1%"),
+            marginBottom: hp("2%"),
             backgroundColor: "lavender",
           }}
           onPress={() => flgPlayFinished && useLocalPlaySound(voiceSrc)}
         >
           <Card.Content>
-            <Paragraph> {text}</Paragraph>
+            <Paragraph style={{ fontSize: hp("1.8%") }}>{text}</Paragraph>
           </Card.Content>
         </Card>
       )}

@@ -1,6 +1,7 @@
 import * as React from "react";
 import { View } from "react-native";
 import { useRecoilState } from "recoil";
+import { heightPercentageToDP as hp } from "react-native-responsive-screen";
 
 import { Header } from "../components/Header";
 import { playingTargetState } from "../store/playingTargetState";
@@ -274,7 +275,7 @@ const TalkScreen = () => {
   return (
     <>
       <Header pageTitle={chapter.label} onPress={stopSequence} />
-      <View style={{ height: "100%" }}>
+      <View style={{ height: hp("100%") }}>
         {flgPlayA && (
           <ChatBubbleButton
             speaker={1}

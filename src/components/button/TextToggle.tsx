@@ -1,6 +1,10 @@
 import { VFC } from "react";
 import { View } from "react-native";
 import { Switch, Text } from "react-native-paper";
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from "react-native-responsive-screen";
 
 type Props = {
   value: boolean;
@@ -15,8 +19,8 @@ export const TextToggle: VFC<Props> = (props) => {
       <Text
         style={{
           textAlign: "center",
-          fontSize: 15,
-          marginRight: 10,
+          fontSize: hp("2%"),
+          marginRight: wp("2%"),
         }}
       >
         {text}

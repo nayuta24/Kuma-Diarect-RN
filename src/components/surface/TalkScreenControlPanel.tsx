@@ -1,6 +1,11 @@
 import React, { VFC } from "react";
 import { View } from "react-native";
 import { Button, Surface, Text } from "react-native-paper";
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from "react-native-responsive-screen";
+
 import { useFormatDoubleDigits } from "../../hooks/useFormatDoubleDigits";
 import { NextButton, PrevButton } from "../button/PrevAndNextButton";
 import { TextToggle } from "../button/TextToggle";
@@ -35,26 +40,26 @@ export const TalkScreenControlPanel: VFC<Props> = (props) => {
         left: 0,
         right: 0,
         bottom: 0,
-        height: 250,
-        borderTopRightRadius: 20,
-        borderTopLeftRadius: 20,
+        height: hp("30%"),
+        borderTopRightRadius: hp("2%"),
+        borderTopLeftRadius: hp("2%"),
         alignItems: "center",
       }}
     >
       <Text
         style={{
           textAlign: "center",
-          fontSize: 33,
+          fontSize: hp("4%"),
           fontWeight: "bold",
           color: "purple",
-          marginVertical: 20,
+          marginTop: hp("4%"),
         }}
       >
         {"パート" + useFormatDoubleDigits(partId)}
       </Text>
       <View
         style={{
-          width: "100%",
+          width: wp("100%"),
           display: "flex",
           flexDirection: "row",
           justifyContent: "space-between",
@@ -67,14 +72,14 @@ export const TalkScreenControlPanel: VFC<Props> = (props) => {
             playPrev();
           }}
         />
-        <View style={{ width: "45%" }}>
+        <View style={{ width: wp("45%") }}>
           {isContinueModeOn ? (
             flgPlayFinished ? (
               <Text
                 style={{
                   marginVertical: "10%",
                   textAlign: "center",
-                  fontSize: 30,
+                  fontSize: hp("3%"),
                   color: "black",
                 }}
               >
@@ -83,9 +88,9 @@ export const TalkScreenControlPanel: VFC<Props> = (props) => {
             ) : (
               <Text
                 style={{
-                  marginVertical: "10%",
+                  marginVertical: hp("2%"),
                   textAlign: "center",
-                  fontSize: 30,
+                  fontSize: hp("4%"),
                   color: "lightgray",
                 }}
               >
@@ -96,7 +101,7 @@ export const TalkScreenControlPanel: VFC<Props> = (props) => {
             <Button
               mode="contained"
               onPress={sequenceAudioAndChat}
-              style={{ marginVertical: 10 }}
+              style={{ marginVertical: hp("1%") }}
               disabled={!flgPlayFinished}
             >
               もう一度再生

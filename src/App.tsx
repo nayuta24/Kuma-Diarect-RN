@@ -8,6 +8,7 @@ import HomeScreen from "./pages/HomeScreen";
 import SituationScreen from "./pages/SituationScreen";
 import ChapterScreen from "./pages/ChapterScreen";
 import TalkScreen from "./pages/TalkScreen";
+import CalendarScreen from "./pages/CalendarScreen";
 
 export type RootStackParamList = {
   Home: undefined;
@@ -31,6 +32,7 @@ function App() {
           <Stack.Screen name={"場面選択"} component={SituationScreen} />
           <Stack.Screen name={"チャプター選択"} component={ChapterScreen} />
           <Stack.Screen name={"トーク画面"} component={TalkScreen} />
+          <Stack.Screen name={"カレンダー"} component={CalendarScreen} />
         </Stack.Navigator>
       </NavigationContainer>
     </RecoilRoot>

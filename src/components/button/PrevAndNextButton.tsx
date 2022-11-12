@@ -1,5 +1,9 @@
 import { VFC } from "react";
 import { IconButton } from "react-native-paper";
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from "react-native-responsive-screen";
 
 type Props = {
   onPress: () => void;
@@ -12,7 +16,7 @@ export const PrevButton: VFC<Props> = (props) => {
     <IconButton
       icon={"menu-left"}
       iconColor={"purple"}
-      size={60}
+      size={wp("18%")}
       onPress={onPress}
       disabled={disabled}
     />
@@ -25,7 +29,7 @@ export const NextButton: VFC<Props> = (props) => {
     <IconButton
       icon={"menu-right"}
       iconColor={"purple"}
-      size={60}
+      size={wp("18%")}
       onPress={onPress}
       disabled={disabled}
     />
