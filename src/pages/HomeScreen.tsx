@@ -16,7 +16,6 @@ type homeScreenProp = StackNavigationProp<RootStackParamList, "Home">;
 const HomeScreen = () => {
   const navigation = useNavigation<homeScreenProp>();
 
-  const onPressCalendarButton = () => {};
   return (
     <View
       style={{
@@ -34,6 +33,7 @@ const HomeScreen = () => {
         }}
       >
         <TextLarge text="熊本弁学習アプリ" />
+
         <CommonButton
           text="スタート！"
           onPress={() => navigation.navigate("場面選択")}

@@ -1,15 +1,27 @@
 type playTimeDatasType = Array<{
     date: string,
-    time: string,
+    h: number,
+    min: number,
+    sec: number,
 }>
 
 export const playTimeDatas: playTimeDatasType = [
     {
-        date: "2021-11-06",
-        time: "00-00-00",
+        date: "2022-11-06",
+        h: 1,
+        min: 0,
+        sec: 0
     },
     {
-        date: "2021-11-08",
-        time: "00-20-00",
+        date: "2022-11-08",
+        h: 0,
+        min: 30,
+        sec: 0
+    },
+    {
+        date: "2022-11-10",
+        h: 0,
+        min: 0,
+        sec: 1
     },
 ]
