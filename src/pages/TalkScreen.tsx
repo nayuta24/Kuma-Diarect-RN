@@ -1,6 +1,6 @@
 import * as React from "react";
 import { View } from "react-native";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import { heightPercentageToDP as hp } from "react-native-responsive-screen";
 
 import { Header } from "../components/Header";
@@ -15,6 +15,11 @@ import { usePrevPlayingTarget } from "../hooks/usePrevPlayingTarget";
 import { AVPlaybackSource } from "expo-av";
 import { useVoicePathMaker } from "../hooks/useVoicePathMaker";
 import { TalkScreenControlPanel } from "../components/surface/TalkScreenControlPanel";
+import { storage } from "../components/storage";
+import moment from "moment";
+import { Text } from "react-native-paper";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { isCountState } from "../store/isCountState";
 
 type voicesAndTextsType = {
   voiceA: {
@@ -272,10 +277,67 @@ const TalkScreen = () => {
     }
   };
 
+  const [isCount, setIsCount] = useRecoilState(isCountState);
+
+  var date = moment(new Date()).format("YYYY-MM-DD");
+  var newData: { [key: string]: number } = {};
+  // 10秒に一回、日付を確認
+  setInterval(() => {
+    date = moment(new Date()).format("YYYY-MM-DD");
+  }, 10000);
+
+  const [count, setCount] = React.useState(0);
+  React.useEffect(() => {
+    const interval = setInterval(() => {
+      storage
+        .load({
+          key: "playTime",
+        })
+        .then((data: { [key: string]: number }) => {
+          newData = data;
+          newData[date] ? (newData[date] += 1) : (newData[date] = 1);
+          console.log(newData);
+          setCount(newData[date]);
+
+          storage.save({
+            key: "playTime",
+            data: newData,
+          });
+        })
+        .catch((err) => {});
+    }, 1000);
+    return () => clearInterval(interval);
+  }, []);
+
+  // const storageRemove = () => {
+  //   storage.remove({
+  //     key: "playTime",
+  //   });
+  // };
+
+  // const storageLoadTest = () => {
+  //   storage
+  //     .load({
+  //       key: "playTime",
+  //     })
+  //     .then((data: { [key: string]: number }) => {
+  //       console.log(data);
+  //     })
+  //     .catch((err) => {});
+  // };
+
+  // const storageSave = () => {
+  //   storage.save({
+  //     key: "playTime",
+  //     data: newData,
+  //   });
+  // };
+
   return (
     <>
       <Header pageTitle={chapter.label} onPress={stopSequence} />
       <View style={{ height: hp("100%") }}>
+        <Text>{count}</Text>
         {flgPlayA && (
           <ChatBubbleButton
             speaker={1}
@@ -308,6 +370,8 @@ const TalkScreen = () => {
             flgPlayFinished={flgPlayFinished}
           />
         )}
+        {/* <Button onPress={storageSave}>あ</Button>
+        <Button onPress={storageLoadTest}>あ</Button> */}
       </View>
       <TalkScreenControlPanel
         partId={part.id}

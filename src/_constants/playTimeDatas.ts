@@ -1,27 +1,10 @@
-type playTimeDatasType = Array<{
-    date: string,
-    h: number,
-    min: number,
-    sec: number,
-}>
+type playTimeDatasType = {
+    [key: string]: number;
+}
 
-export const playTimeDatas: playTimeDatasType = [
-    {
-        date: "2022-11-06",
-        h: 1,
-        min: 0,
-        sec: 0
-    },
-    {
-        date: "2022-11-08",
-        h: 0,
-        min: 30,
-        sec: 0
-    },
-    {
-        date: "2022-11-10",
-        h: 0,
-        min: 0,
-        sec: 1
-    },
-]
+export const playTimeDatas: playTimeDatasType = {
+    "2022-11-06": 0,
+    "2022-11-08": 1300,
+    "2022-11-10": 1200,
+}
+

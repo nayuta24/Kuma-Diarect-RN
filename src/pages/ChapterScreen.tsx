@@ -2,10 +2,11 @@ import * as React from "react";
 import { View } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import { List } from "react-native-paper";
-import { useRecoilValue } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 
 import { ChapterCard } from "../components/card/ChapterCard";
 import { Header } from "../components/Header";
+import { isCountState } from "../store/isCountState";
 import { playingTargetState } from "../store/playingTargetState";
 import { voiceDatas } from "../_constants/voiceDatas";
 
@@ -14,6 +15,12 @@ const ChapterScreen = () => {
   const playingTarget = useRecoilValue(playingTargetState);
   const selectedSituationChapters =
     voiceDatas[playingTarget.situation.id].datas;
+
+  const [isCount, setIsCount] = useRecoilState(isCountState);
+
+  React.useEffect(() => {
+    setIsCount(false);
+  }, []);
 
   return (
     <>

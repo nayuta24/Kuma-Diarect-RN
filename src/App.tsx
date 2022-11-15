@@ -2,7 +2,7 @@ import "react-native-gesture-handler";
 import { registerRootComponent } from "expo";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
-import { RecoilRoot } from "recoil";
+import { RecoilRoot, useRecoilValue } from "recoil";
 
 import HomeScreen from "./pages/HomeScreen";
 import SituationScreen from "./pages/SituationScreen";

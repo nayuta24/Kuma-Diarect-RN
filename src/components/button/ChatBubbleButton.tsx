@@ -1,5 +1,5 @@
 import { AVPlaybackSource } from "expo-av";
-import { VFC } from "react";
+import { useMemo, VFC } from "react";
 import { Card, Paragraph } from "react-native-paper";
 import {
   widthPercentageToDP as wp,

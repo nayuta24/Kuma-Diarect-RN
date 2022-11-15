@@ -11,11 +11,18 @@ import {
 import { TextLarge } from "../components/text/TextLarge";
 import { CommonButton } from "../components/button/CommonButton";
 import { CircleIconButton } from "../components/button/CircleIconButton";
+import { storage } from "../components/storage";
+import { isCountState } from "../store/isCountState";
+import { useRecoilState } from "recoil";
 
 type homeScreenProp = StackNavigationProp<RootStackParamList, "Home">;
 const HomeScreen = () => {
   const navigation = useNavigation<homeScreenProp>();
 
+  const [isCount, setIsCount] = useRecoilState(isCountState);
+  React.useEffect(() => {
+    setIsCount(false);
+  }, []);
   return (
     <View
       style={{
