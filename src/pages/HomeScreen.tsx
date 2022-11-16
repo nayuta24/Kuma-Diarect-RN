@@ -8,19 +8,19 @@ import {
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
 
-import { TextLarge } from "../components/text/TextLarge";
 import { CommonButton } from "../components/button/CommonButton";
 import { CircleIconButton } from "../components/button/CircleIconButton";
 import { storage } from "../components/storage";
 import { isCountState } from "../store/isCountState";
-import { useRecoilState } from "recoil";
+import { useSetRecoilState } from "recoil";
 import moment from "moment";
+import { AppTitle } from "../components/text/AppTitle";
 
 type homeScreenProp = StackNavigationProp<RootStackParamList, "Home">;
 const HomeScreen = () => {
   const navigation = useNavigation<homeScreenProp>();
 
-  const [isCount, setIsCount] = useRecoilState(isCountState);
+  const setIsCount = useSetRecoilState(isCountState);
 
   React.useEffect(() => {
     const date = moment(new Date()).format("YYYY-MM-DD");
@@ -58,7 +58,7 @@ const HomeScreen = () => {
           height: hp("70%"),
         }}
       >
-        <TextLarge text="聞いてみらんね　介護の熊本弁" />
+        <AppTitle subTitle="聞いてみらんね！" title="介護の熊本弁" />
 
         <CommonButton
           text="スタート！"
