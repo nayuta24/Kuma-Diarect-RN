@@ -296,7 +296,7 @@ const TalkScreen = () => {
         .then((data: { [key: string]: number }) => {
           newData = data;
           newData[date] ? (newData[date] += 1) : (newData[date] = 1);
-          console.log(newData);
+          // console.log(newData);
           setCount(newData[date]);
 
           storage.save({
@@ -337,7 +337,6 @@ const TalkScreen = () => {
     <>
       <Header pageTitle={chapter.label} onPress={stopSequence} />
       <View style={{ height: hp("100%") }}>
-        <Text>{count}</Text>
         {flgPlayA && (
           <ChatBubbleButton
             speaker={1}

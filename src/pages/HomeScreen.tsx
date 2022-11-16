@@ -14,15 +14,34 @@ import { CircleIconButton } from "../components/button/CircleIconButton";
 import { storage } from "../components/storage";
 import { isCountState } from "../store/isCountState";
 import { useRecoilState } from "recoil";
+import moment from "moment";
 
 type homeScreenProp = StackNavigationProp<RootStackParamList, "Home">;
 const HomeScreen = () => {
   const navigation = useNavigation<homeScreenProp>();
 
   const [isCount, setIsCount] = useRecoilState(isCountState);
+
   React.useEffect(() => {
+    const date = moment(new Date()).format("YYYY-MM-DD");
+    var newData: { [key: string]: number } = {};
+    storage
+      .load({
+        key: "playTime",
+      })
+      .then((data: { [key: string]: number }) => {
+        newData = data;
+        newData[date] || (newData[date] = 0);
+        storage.save({
+          key: "playTime",
+          data: newData,
+        });
+      })
+      .catch((err) => {});
+
     setIsCount(false);
   }, []);
+
   return (
     <View
       style={{
@@ -39,7 +58,7 @@ const HomeScreen = () => {
           height: hp("70%"),
         }}
       >
-        <TextLarge text="熊本弁学習アプリ" />
+        <TextLarge text="聞いてみらんね　介護の熊本弁" />
 
         <CommonButton
           text="スタート！"
