@@ -22,16 +22,13 @@
       "bundleIdentifier": "com.nayuta24.KumamotoDiarect"
     },
     "android": {
+      "versionCode": 3,
       "adaptiveIcon": {
         "foregroundImage": "./src/assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
       },
       "package": "com.nayuta24.KumamotoDiarect",
-      "blockedPermissions": [
-        "android.permission.ACCESS_BACKGROUND_LOCATION",
-        "android.permission.ACCESS_COARSE_LOCATION",
-        "android.permission.ACCESS_FINE_LOCATION"
-      ]
+      "permissions":[]
     },
     "web": {
       "favicon": "./src/assets/favicon.png"
