@@ -22,25 +22,30 @@ const HomeScreen = () => {
 
   const setIsCount = useSetRecoilState(isCountState);
 
+  const [todayPlayTimeData, setTodayPlayTimeData] = React.useState<{
+    [key: string]: number;
+  }>({});
+
+  // 今日の再生時間データがなければ、デフォルト値として0をセットする
   React.useEffect(() => {
     const date = moment(new Date()).format("YYYY-MM-DD");
-    var newData: { [key: string]: number } = {};
     storage
       .load({
         key: "playTime",
       })
       .then((data: { [key: string]: number }) => {
-        newData = data;
-        newData[date] || (newData[date] = 0);
-        storage.save({
-          key: "playTime",
-          data: newData,
-        });
+        data[date] || setTodayPlayTimeData({ ...data, [date]: 0 });
       })
       .catch((err) => {});
-
     setIsCount(false);
   }, []);
+
+  React.useEffect(() => {
+    storage.save({
+      key: "playTime",
+      data: todayPlayTimeData,
+    });
+  }, [todayPlayTimeData]);
 
   return (
     <View

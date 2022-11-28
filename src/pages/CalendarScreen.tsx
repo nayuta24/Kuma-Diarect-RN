@@ -51,6 +51,7 @@ const CalendarScreen = () => {
   }, []);
 
   React.useEffect(() => {
+    console.log(playTimeDatas);
     setTodayPlaytime({
       h: Math.floor(playTimeDatas[dateFormat] / 3600),
       min: Math.floor((playTimeDatas[dateFormat] % 3600) / 60),
