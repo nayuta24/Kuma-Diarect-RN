@@ -2,12 +2,10 @@ import moment from "moment";
 import * as React from "react";
 import { View } from "react-native";
 import { Calendar, LocaleConfig } from "react-native-calendars";
-import { MarkedDates } from "react-native-calendars/src/types";
 import { Text } from "react-native-paper";
 import { Header } from "../components/Header";
 import { storage } from "../components/storage";
 import { TextLarge } from "../components/text/TextLarge";
-import { playTimeDatas } from "../_constants/playTimeDatas";
 
 import {
   widthPercentageToDP as wp,
@@ -81,7 +79,7 @@ const CalendarScreen = () => {
           alignItems: "center",
         }}
       >
-        <View style={{ marginTop: "%" }}></View>
+        <View style={{ marginTop: hp("3.5%") }}></View>
         <TextLarge text={dateFormat} />
         <Text style={{ fontSize: hp("3.5%"), fontWeight: "bold" }}>
           {"今日の再生時間"}
