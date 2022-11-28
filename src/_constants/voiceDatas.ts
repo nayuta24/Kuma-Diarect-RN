@@ -43,7 +43,7 @@ type voiceDatasType = [
 export const voiceDatas: voiceDatasType = [
     {
         title: "ナースコール",
-        explanation: "症状を正しく聞き取り、すばやく適切な行動が取れるようになりましょう。",
+        explanation: "症状(しょうじょう)を正(ただ)しく聞(き)き取(と)り、すばやく適切(てきせつ)な行動(こうどう)が取(と)れるようになりましょう。",
         image: "http://ilab.watson.jp/Test/NakamuraYutaTest/images/situation/nursecall.jpg",
         datas: {
             nonStandardVoice: [
@@ -253,8 +253,8 @@ export const voiceDatas: voiceDatasType = [
         }
     },
     {
-        title: "食事",
-        explanation: "上手に要望を聞き取り、患者の食生活をサポートしましょう。",
+        title: "食事(しょくじ)",
+        explanation: "上手(じょうず)に要望(ようぼう)を聞(き)き取(と)り、患者(かんじゃ)の食生活(しょくせいかつ)をサポートしましょう。",
         image: "http://ilab.watson.jp/Test/NakamuraYutaTest/images/situation/eat.jpg",
         datas: {
             nonStandardVoice: [
@@ -412,7 +412,7 @@ export const voiceDatas: voiceDatasType = [
                     ],
                 },
                                                 {
-                    title: "間食",
+                    title: "間食(かんしょく)",
                     voiceTexts: [
                         [ "間食(かんしょく)をしていると、ご飯(はん)が食(た)べられなくなりますよ。", "しょんなかね", "ご飯(はん)、楽(たの)しみにしていてください", "仕方(しかた)がないね" ],
                         [ "間食(かんしょく)をしていると、ご飯(はん)が食(た)べられなくなりますよ。", "ばってんが、はらへったけんね", "ご飯(はん)、楽(たの)しみにしててください", "でも、お腹(はら)がすいたからね" ],
@@ -439,8 +439,8 @@ export const voiceDatas: voiceDatasType = [
         }
     },
     {
-        title: "日常生活",
-        explanation: "症状を正しく聞き取り、すばやく適切な行動が取れるようになりましょう。",
+        title: "日常生活(にちじょうせいかつ)",
+        explanation: "症状(しょうじょう)を正(ただ)しく聞(き)き取(と)り、すばやく適切(てきせつ)な行動(こうどう)が取(と)れるようになりましょう。",
         image: "http://ilab.watson.jp/Test/NakamuraYutaTest/images/situation/life.jpg",
         datas: {
             nonStandardVoice: [
@@ -668,7 +668,7 @@ export const voiceDatas: voiceDatasType = [
                         [ "そろそろ買(か)い物(もの)に行(い)く時間(じかん)ですよ。着替(きが)えをなさいますか。 ", "どこさん行くとね。", "スーパーですよ。", "どこに行(い)くんですか？" ],
                     ]
                 },{
-                    title: "お湯の温度",
+                    title: "お湯(ゆ)の温度(おんど)",
                     voiceTexts: [
                         [ "お湯(ゆ)の温度(おんど)はよろしいですか。あつくないですか。", "あつなかよー。ちょうどよか。", "じゃ、いいですね。", "熱(あつ)くないよ。ちょうどいい。" ],
                         [ "お湯(ゆ)の温度(おんど)はよろしいですか。あつくないですか。", "ちょっとつめたか。もっとあつして。", "じゃ、少(すこ)し熱(あつ)くしますね。", "ちょっと冷(つめ)たい。もっと熱(あつ)くして。" ],

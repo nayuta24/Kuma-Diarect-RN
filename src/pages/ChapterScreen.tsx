@@ -28,7 +28,7 @@ const ChapterScreen = () => {
       <ScrollView>
         <View>
           <List.Section>
-            <List.Subheader>標準語音声なし</List.Subheader>
+            <List.Subheader>標準語(ひょうじゅんご おんせい)なし</List.Subheader>
             {selectedSituationChapters.nonStandardVoice.map(
               (chapter, index) => (
                 <ChapterCard
@@ -40,7 +40,9 @@ const ChapterScreen = () => {
                 />
               )
             )}
-            <List.Subheader>標準語音声あり</List.Subheader>
+            <List.Subheader>
+              標準語音声(ひょうじゅんご おんせい)あり
+            </List.Subheader>
             {selectedSituationChapters.hasStandardVoice.map(
               (chapter, index) => (
                 <ChapterCard

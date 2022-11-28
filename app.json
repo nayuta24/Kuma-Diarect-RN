@@ -19,10 +19,11 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.nayuta24.KumamotoDiarect"
+      "bundleIdentifier": "com.nayuta24.KumamotoDiarect",
+      "buildNumber": "1.0.1"
     },
     "android": {
-      "versionCode": 3,
+      "versionCode": 4,
       "adaptiveIcon": {
         "foregroundImage": "./src/assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"

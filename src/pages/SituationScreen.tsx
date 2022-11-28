@@ -10,7 +10,7 @@ import { voiceDatas } from "../_constants/voiceDatas";
 const SituationScreen = () => {
   return (
     <>
-      <Header pageTitle="場面選択" />
+      <Header pageTitle="場面選択(ばめんせんたく)" />
       <ScrollView>
         <View>
           {voiceDatas.map((voiceData, index) => (
