@@ -29,10 +29,15 @@
         "backgroundColor": "#FFFFFF"
       },
       "package": "com.nayuta24.KumamotoDiarect",
-      "permissions":[]
+      "permissions": []
     },
     "web": {
       "favicon": "./src/assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "dcf63364-d5ec-499f-9dec-0933276de248"
+      }
     }
   }
 }
