@@ -72,10 +72,10 @@ const HomeScreen = () => {
       </View>
       <View style={{ height: hp("15%") }}>
         <View style={{ marginLeft: wp("65%") }}>
-          <CircleIconButton
+          {/* <CircleIconButton
             icon="calendar"
             onPress={() => navigation.navigate("カレンダー")}
-          />
+          /> */}
         </View>
       </View>
     </View>

@@ -46,7 +46,18 @@ export const SituationCard: VFC<Props> = (props) => {
         <Title style={{ fontWeight: "bold" }}>{title}</Title>
         <Paragraph>{paragraph}</Paragraph>
       </Card.Content>
-      <Card.Cover source={{ uri: image }} />
+      {image === "eat" ? (
+        <Card.Cover source={require("../../assets/images/Situation/eat.jpg")} />
+      ) : image === "life" ? (
+        <Card.Cover
+          source={require("../../assets/images/Situation/life.jpg")}
+        />
+      ) : (
+        <Card.Cover
+          source={require("../../assets/images/Situation/nursecall.jpg")}
+        />
+      )}
+
       <Card.Actions>
         <Button mode="outlined" onPress={() => onCardButtonPress()}>
           はじめる

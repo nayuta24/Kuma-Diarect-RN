@@ -44,7 +44,7 @@ export const voiceDatas: voiceDatasType = [
     {
         title: "ナースコール",
         explanation: "症状(しょうじょう)を正(ただ)しく聞(き)き取(と)り、すばやく適切(てきせつ)な行動(こうどう)が取(と)れるようになりましょう。",
-        image: "http://ilab.watson.jp/Test/NakamuraYutaTest/images/situation/nursecall.jpg",
+        image: "nursecall",
         datas: {
             nonStandardVoice: [
             {
@@ -255,7 +255,7 @@ export const voiceDatas: voiceDatasType = [
     {
         title: "食事(しょくじ)",
         explanation: "上手(じょうず)に要望(ようぼう)を聞(き)き取(と)り、患者(かんじゃ)の食生活(しょくせいかつ)をサポートしましょう。",
-        image: "http://ilab.watson.jp/Test/NakamuraYutaTest/images/situation/eat.jpg",
+        image: "eat",
         datas: {
             nonStandardVoice: [
                 {
@@ -441,7 +441,7 @@ export const voiceDatas: voiceDatasType = [
     {
         title: "日常生活(にちじょうせいかつ)",
         explanation: "症状(しょうじょう)を正(ただ)しく聞(き)き取(と)り、すばやく適切(てきせつ)な行動(こうどう)が取(と)れるようになりましょう。",
-        image: "http://ilab.watson.jp/Test/NakamuraYutaTest/images/situation/life.jpg",
+        image: "life",
         datas: {
             nonStandardVoice: [
                 {
